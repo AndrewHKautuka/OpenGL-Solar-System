@@ -11,7 +11,7 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
 	// Window Creation
-	GLFWwindow* window = glfwCreateWindow(800, 600, "OpenGLSetup", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(800, 600, "Solar System", NULL, NULL);
 	
 	if (window == NULL)
 	{
