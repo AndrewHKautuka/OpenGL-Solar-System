@@ -1,0 +1,30 @@
+{
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe build project",
+			// Ensure the running machine has the path to g++ in the PATH enviroment variable
+			"command": "g++",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"${workspaceFolder}/src/**.cpp",
+				"-o",
+				"${workspaceFolder}/Solar System.exe",
+				"-I${workspaceFolder}/dependencies/include",
+				"-I./include",
+				"-L${workspaceFolder}/dependencies/lib",
+				"-lglfw3dll",
+				"-lglad"
+			],
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+		}
+	],
+	"version": "2.0.0"
+}
