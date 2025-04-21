@@ -2,6 +2,11 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+const float WIDTH = 800, HEIGHT = 600;
+const float clearColor[4] = { 0.2f, 0.3f, 0.3f, 1.0f };
+
 int main()
 {
 	// GLFW Initialization
@@ -28,9 +33,15 @@ int main()
 		return -1;
 	}
 	
+	glViewport(0, 0, WIDTH, HEIGHT);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	
 	// Render loop
 	while (!glfwWindowShouldClose(window))
 	{
+		glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
+		glClear(GL_COLOR_BUFFER_BIT);
+		
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -38,4 +49,9 @@ int main()
 	// GLFW Termination
 	glfwTerminate();
 	return 0;
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
 }
