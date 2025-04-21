@@ -2,10 +2,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+#include "Display.hpp"
 
 const float WIDTH = 800, HEIGHT = 600;
-const float clearColor[4] = { 0.2f, 0.3f, 0.3f, 1.0f };
 
 int main()
 {
@@ -16,15 +15,15 @@ int main()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	
 	// Window Creation
-	GLFWwindow* window = glfwCreateWindow(800, 600, "Solar System", NULL, NULL);
+	Display display(WIDTH, HEIGHT, "Solar System");
 	
-	if (window == NULL)
+	if (display.mWindow == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
 		return -1;
 	}
-	glfwMakeContextCurrent(window);
+	display.RequestFocus();
 	
 	// GLAD initialization
 	if (!gladLoadGLLoader((GLADloadproc) glfwGetProcAddress))
@@ -33,25 +32,8 @@ int main()
 		return -1;
 	}
 	
-	glViewport(0, 0, WIDTH, HEIGHT);
-	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	display.Initialize();
+	display.Run();
 	
-	// Render loop
-	while (!glfwWindowShouldClose(window))
-	{
-		glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]);
-		glClear(GL_COLOR_BUFFER_BIT);
-		
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
-	
-	// GLFW Termination
-	glfwTerminate();
 	return 0;
-}
-
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	glViewport(0, 0, width, height);
 }
