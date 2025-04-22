@@ -2,7 +2,7 @@
 
 #include <glad/glad.h>
 
-#include "gLErrorHandle.hpp"
+#include "util/gLErrorHandle.hpp"
 
 Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
 {

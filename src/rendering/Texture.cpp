@@ -2,7 +2,7 @@
 
 #include "stb_image.h"
 
-#include "gLErrorHandle.hpp"
+#include "util/gLErrorHandle.hpp"
 
 static const float BORDER_COLOR[] = { 1.0f, 0.0f, 1.0f, 1.0f };
 

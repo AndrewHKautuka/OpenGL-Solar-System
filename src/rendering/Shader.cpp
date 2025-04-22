@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "gLErrorHandle.hpp"
+#include "util/gLErrorHandle.hpp"
 
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
 {
