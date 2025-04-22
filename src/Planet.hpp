@@ -1,7 +1,7 @@
 #pragma once
 
-#include "mesh/Sphere.h"
-#include "rendering/Texture.hpp"
+#include "Sphere.h"
+#include "Texture.hpp"
 
 class Planet
 {

@@ -2,7 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-#include "display/Display.hpp"
+#include "Display.hpp"
 
 const float WIDTH = 800, HEIGHT = 600;
 

@@ -4,7 +4,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "util/gLErrorHandle.hpp"
+#include "gLErrorHandle.hpp"
 
 Shader::Shader(const char* pShaderPath, ShaderType pType)
 {

@@ -2,7 +2,7 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include "util/gLErrorHandle.hpp"
+#include "gLErrorHandle.hpp"
 
 ShaderProgram::ShaderProgram(Shader vertexShader, Shader fragmentShader)
 {

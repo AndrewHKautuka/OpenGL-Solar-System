@@ -2,8 +2,8 @@
 
 #include <vector>
 
-#include "rendering/ShaderProgram.hpp"
-#include "planet/Planet.hpp"
+#include "ShaderProgram.hpp"
+#include "Planet.hpp"
 
 class Scene
 {

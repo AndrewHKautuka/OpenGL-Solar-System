@@ -1,6 +1,6 @@
 #include "Display.hpp"
 
-#include "util/gLErrorHandle.hpp"
+#include "gLErrorHandle.hpp"
 
 Display::Display(unsigned int pWidth, unsigned int pHeight, const char* pTitle) : mWidth(pWidth), mHeight(pHeight), mTitle(pTitle), mWindow(glfwCreateWindow(mWidth, mHeight, mTitle, NULL, NULL))
 {
