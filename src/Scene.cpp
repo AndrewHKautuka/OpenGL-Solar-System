@@ -2,7 +2,7 @@
 
 Scene::Scene()
 {
-	shader = new Shader("shaders/shader.vs", "shaders/shader.fs");
+	shader = new Shader("shaders/planet.vs", "shaders/planet.fs");
 	maxPlanetsCount = 6;
 	planets = new Planet*[maxPlanetsCount];
 }
