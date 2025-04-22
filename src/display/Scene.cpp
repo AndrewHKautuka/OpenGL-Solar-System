@@ -2,7 +2,9 @@
 
 Scene::Scene()
 {
-	shader = new Shader("shaders/planet.vs", "shaders/planet.fs");
+	Shader vertex("shaders/planet.vs", VERTEX);
+	Shader fragment("shaders/planet.fs", FRAGMENT);
+	shader = new ShaderProgram(vertex, fragment);
 	maxPlanetsCount = 6;
 	planets = new Planet*[maxPlanetsCount];
 }

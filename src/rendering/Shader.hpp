@@ -4,20 +4,22 @@
 #include <glm/glm.hpp>
 #include <string>
 
+enum ShaderType
+{
+	VERTEX = 1, FRAGMENT
+};
+
 class Shader
 {
 public:
-	Shader(const char* vertexPath, const char* fragmentPath);
+	Shader(const char* pShaderPath, ShaderType pType);
 	~Shader();
 	
-	void use();
-	void setBool(const std::string& name, bool value) const;
-	void setInt(const std::string& name, int value) const;
-	void setFloat(const std::string& name, float value) const;
-	void setMat4(const std::string& name, glm::mat4 value) const;
+	void AttachShader(unsigned int shaderProgram);
 private:
 	unsigned int ID;
 	
-	void checkShaderCompileErrors(unsigned int shader, std::string type);
-	void checkProgramLinkErrors(unsigned int shaderProgram);
+	void checkShaderCompileErrors(ShaderType type);
+	static GLenum getGLShaderType(ShaderType type);
+	static const char* getShaderName(ShaderType type);
 };

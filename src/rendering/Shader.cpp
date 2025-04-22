@@ -1,120 +1,91 @@
 #include "Shader.hpp"
 
-#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
 #include "util/gLErrorHandle.hpp"
 
-Shader::Shader(const char* vertexPath, const char* fragmentPath)
+Shader::Shader(const char* pShaderPath, ShaderType pType)
 {
-	std::string vertexCode;
-	std::string fragmentCode;
+	std::string sourceCode;
 	
 	try
 	{
-		std::ifstream vShaderFile(vertexPath);
-		std::ifstream fShaderFile(fragmentPath);
+		std::ifstream shaderFile(pShaderPath);
 		
-		std::stringstream vShaderStream, fShaderStream;
+		std::stringstream shaderStream;
 		
-		vShaderStream << vShaderFile.rdbuf();
-		fShaderStream << fShaderFile.rdbuf();
+		shaderStream << shaderFile.rdbuf();
 		
-		vShaderFile.close();
-		fShaderFile.close();
+		shaderFile.close();
 		
-		vertexCode = vShaderStream.str();
-		fragmentCode = fShaderStream.str();
+		sourceCode = shaderStream.str();
 	}
 	catch(const std::ifstream::failure& e)
 	{
 		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
 	}
 	
-	const char* vShaderCode = vertexCode.c_str();
-	const char* fShaderCode = fragmentCode.c_str();
+	const char* shaderCode = sourceCode.c_str();
 	
-	unsigned int vertex, fragment;
+	GLCall(ID = glCreateShader(getGLShaderType(pType)));
+	GLCall(glShaderSource(ID, 1, &shaderCode, NULL));
+	GLCall(glCompileShader(ID));
 	
-	GLCall(vertex = glCreateShader(GL_VERTEX_SHADER));
-	GLCall(glShaderSource(vertex, 1, &vShaderCode, NULL));
-	GLCall(glCompileShader(vertex));
-	
-	checkShaderCompileErrors(vertex, "VERTEX");
-	
-	GLCall(fragment = glCreateShader(GL_FRAGMENT_SHADER));
-	GLCall(glShaderSource(fragment, 1, &fShaderCode, NULL));
-	GLCall(glCompileShader(fragment));
-	
-	checkShaderCompileErrors(fragment, "FRAGMENT");
-	
-	GLCall(ID = glCreateProgram());
-	GLCall(glAttachShader(ID, vertex));
-	GLCall(glAttachShader(ID, fragment));
-	GLCall(glLinkProgram(ID));
-	
-	checkProgramLinkErrors(ID);
-	
-	GLCall(glDeleteShader(vertex));
-	GLCall(glDeleteShader(fragment));
+	checkShaderCompileErrors(pType);
 }
 
 Shader::~Shader()
 {
-	// GLCall(glDeleteProgram(ID));
+	GLCall(glDeleteShader(ID));
 }
 
-void Shader::use()
+void Shader::AttachShader(unsigned int shaderProgram)
 {
-	GLCall(glUseProgram(ID));
+	GLCall(glAttachShader(shaderProgram, ID));
 }
 
-void Shader::setBool(const std::string& name, bool value) const
-{
-	GLCall(glUniform1i(glGetUniformLocation(ID, name.c_str()), (int) value));
-}
-
-void Shader::setInt(const std::string& name, int value) const
-{
-	GLCall(glUniform1i(glGetUniformLocation(ID, name.c_str()), value));
-}
-
-void Shader::setFloat(const std::string& name, float value) const
-{
-	GLCall(glUniform1f(glGetUniformLocation(ID, name.c_str()), value));
-}
-
-void Shader::setMat4(const std::string& name, glm::mat4 value) const
-{
-	GLCall(glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value)));
-}
-
-void Shader::checkShaderCompileErrors(unsigned int shader, std::string type)
+void Shader::checkShaderCompileErrors(ShaderType type)
 {
 	int success;
 	char infoLog[1024];
 	
-	GLCall(glGetShaderiv(shader, GL_COMPILE_STATUS, &success));
+	GLCall(glGetShaderiv(ID, GL_COMPILE_STATUS, &success));
 	
 	if (!success)
 	{
-		GLCall(glGetShaderInfoLog(shader, 1024, NULL, infoLog));
-		std::cout << "ERROR::SHADER::" << type << "::COMPILATION_FAILED: " << infoLog << std::endl;
+		GLCall(glGetShaderInfoLog(ID, 1024, NULL, infoLog));
+		std::cout << "ERROR::SHADER::" << getShaderName(type) << "::COMPILATION_FAILED: " << infoLog << std::endl;
 	}
 }
 
-void Shader::checkProgramLinkErrors(unsigned int shaderProgram)
+GLenum Shader::getGLShaderType(ShaderType type)
 {
-	int success;
-	char infoLog[1024];
-	
-	GLCall(glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success));
-	
-	if (!success)
+	switch (type)
 	{
-		GLCall(glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog));
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED: " << infoLog << std::endl;
+		case VERTEX:
+			return GL_VERTEX_SHADER;
+		
+		case FRAGMENT:
+			return GL_FRAGMENT_SHADER;
+		
+		default:
+			return 0xcccccccc;
+	}
+}
+
+const char* Shader::getShaderName(ShaderType type)
+{
+	switch (type)
+	{
+		case VERTEX:
+			return "VERTEX";
+		
+		case FRAGMENT:
+			return "FRAGMENT";
+		
+		default:
+			return "UNKNOWN";
 	}
 }

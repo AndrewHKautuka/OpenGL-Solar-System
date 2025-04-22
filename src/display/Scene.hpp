@@ -2,13 +2,13 @@
 
 #include <vector>
 
-#include "rendering/Shader.hpp"
+#include "rendering/ShaderProgram.hpp"
 #include "planet/Planet.hpp"
 
 class Scene
 {
 private:
-	Shader* shader;
+	ShaderProgram* shader;
 	
 	unsigned int maxPlanetsCount;
 	unsigned int planetsCount = 0;
