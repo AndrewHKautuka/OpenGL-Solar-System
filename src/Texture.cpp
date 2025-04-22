@@ -32,7 +32,7 @@ Texture::Texture(const char* texturePath, GLenum format)
 	}
 	else
 	{
-		std::cout << "Failed to load texture" << std::endl;
+		std::cout << "Failed to load texture: " << texturePath << std::endl;
 	}
 	
 	stbi_image_free(data);
