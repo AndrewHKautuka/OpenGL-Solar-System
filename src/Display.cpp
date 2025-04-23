@@ -14,6 +14,9 @@ Display::~Display()
 		delete scene;
 		scene = nullptr;
 	}
+	
+	// GLFW Termination
+	glfwTerminate();
 }
 
 void Display::Initialize()
@@ -65,9 +68,6 @@ void Display::Run()
 		glfwSwapBuffers(mWindow);
 		glfwPollEvents();
 	}
-	
-	// GLFW Termination
-	glfwTerminate();
 }
 
 void Display::framebuffer_size_callback(GLFWwindow* window, int width, int height)
