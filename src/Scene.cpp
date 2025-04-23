@@ -1,8 +1,9 @@
 #include "Scene.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 Scene::Scene()
 {
-	
 	shaderPool.AddShader(new Shader("shaders/planet.vs", VERTEX), "planet.vs");
 	shaderPool.AddShader(new Shader("shaders/planet.fs", FRAGMENT), "planet.fs");
 	
@@ -23,10 +24,18 @@ Scene::~Scene()
 	planets = nullptr;
 }
 
-void Scene::Initialize()
+void Scene::Initialize(float pAspectRatio)
 {
+	SetAspectRatio(pAspectRatio);
+	
 	shaderPool.RetrieveShaderProgram("planet")->use();
 	shaderPool.RetrieveShaderProgram("planet")->setMat4("projection", projection);
+}
+
+void Scene::SetAspectRatio(float pAspectRatio)
+{
+	aspectRatio = pAspectRatio;
+	projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
 }
 
 void Scene::AddPlanet(Planet planet)

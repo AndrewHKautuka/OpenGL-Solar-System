@@ -34,7 +34,7 @@ void Display::RequestFocus()
 
 void Display::Run()
 {
-	scene->Initialize();
+	scene->Initialize((float) mWidth / (float) mHeight);
 	
 	Texture sunTexture("textures/sunmap.jpg");
 	Texture mercuryTexture("textures/mercurymap.jpg");

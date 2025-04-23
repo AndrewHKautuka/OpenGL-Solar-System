@@ -9,6 +9,7 @@
 class Scene
 {
 private:
+	float aspectRatio;
 	ShaderPool shaderPool;
 	
 	unsigned int maxPlanetsCount;
@@ -21,6 +22,7 @@ public:
 	~Scene();
 	
 	void AddPlanet(Planet planet);
-	void Initialize();
+	void Initialize(float pAspectRatio);
+	void SetAspectRatio(float pAspectRatio);
 	void Render();
 };
