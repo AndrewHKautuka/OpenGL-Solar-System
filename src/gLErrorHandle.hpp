@@ -43,7 +43,7 @@ static bool GLLogCall(const char* function, const char* file, int line)
 	bool noError = true;
 	while (GLenum error = glGetError()) // Will run until error is 0, ie GL_NO_ERROR
 	{
-		std::cout << "[OpenGL Error] (0x" << std::hex << error << std::dec << "): " << function << " " << file << ":" << line << "\n";
+		std::cout << "[OpenGL Error] (0x" << std::hex << error << std::dec << "): " << function << " " << file << ":" << line << std::endl;
 		noError = false;
 	}
 	return noError;
