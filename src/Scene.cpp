@@ -2,6 +2,8 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "FixedCamera.hpp"
+
 Scene::Scene()
 {
 	shaderPool.AddShader(new Shader("shaders/planet.vs", VERTEX), "planet.vs");
@@ -26,6 +28,8 @@ Scene::~Scene()
 
 void Scene::Initialize(float pAspectRatio)
 {
+	camera = new FixedCamera(new glm::vec3(0.0f, 0.0f, -3.0f), new glm::vec3(0.0f, 0.0f, 0.0f));
+	
 	SetAspectRatio(pAspectRatio);
 	
 	shaderPool.RetrieveShaderProgram("planet")->use();
@@ -47,6 +51,7 @@ void Scene::AddPlanet(Planet planet)
 void Scene::Render()
 {
 	shaderPool.RetrieveShaderProgram("planet")->use();
+	shaderPool.RetrieveShaderProgram("planet")->setMat4("view", camera->GetViewMatrix());
 	
 	for (unsigned int i = 0; i < planetsCount; i++)
 	{
