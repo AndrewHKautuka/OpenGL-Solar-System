@@ -2,17 +2,24 @@
 
 Scene::Scene()
 {
-	Shader vertex("shaders/planet.vs", VERTEX);
-	Shader fragment("shaders/planet.fs", FRAGMENT);
-	shader = new ShaderProgram(vertex, fragment);
+	Shader* vertex = new Shader("shaders/planet.vs", VERTEX);
+	Shader* fragment = new Shader("shaders/planet.fs", FRAGMENT);
+	
+	shaderPool.AddShader(vertex, "planet.vs");
+	shaderPool.AddShader(fragment, "planet.fs");
+	
+	ShaderProgram* shaderProgram = new ShaderProgram(*shaderPool.RetrieveShader("planet.vs"), *shaderPool.RetrieveShader("planet.fs"));
+	
+	shaderPool.AddShaderProgram(shaderProgram, "planet");
+	
 	maxPlanetsCount = 6;
 	planets = new Planet*[maxPlanetsCount];
 }
 
 Scene::~Scene()
 {
-	delete shader;
-	shader = nullptr;
+	shaderPool.ClearShaders();
+	shaderPool.ClearShaderPrograms();
 	
 	delete [] planets;
 	planets = nullptr;
@@ -20,7 +27,7 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	shader->use();
+	shaderPool.RetrieveShaderProgram("planet")->use();
 }
 
 void Scene::AddPlanet(Planet planet)
@@ -31,7 +38,7 @@ void Scene::AddPlanet(Planet planet)
 
 void Scene::Render()
 {
-	shader->use();
+	shaderPool.RetrieveShaderProgram("planet")->use();
 	
 	for (unsigned int i = 0; i < planetsCount; i++)
 	{
