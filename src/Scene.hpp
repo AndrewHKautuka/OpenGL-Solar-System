@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+#include "Camera.hpp"
 #include "ShaderPool.hpp"
 #include "Planet.hpp"
 
@@ -11,6 +12,7 @@ class Scene
 private:
 	float aspectRatio;
 	ShaderPool shaderPool;
+	Camera* camera;
 	
 	unsigned int maxPlanetsCount;
 	unsigned int planetsCount = 0;
