@@ -2,18 +2,16 @@
 
 Scene::Scene()
 {
-	Shader* vertex = new Shader("shaders/planet.vs", VERTEX);
-	Shader* fragment = new Shader("shaders/planet.fs", FRAGMENT);
 	
-	shaderPool.AddShader(vertex, "planet.vs");
-	shaderPool.AddShader(fragment, "planet.fs");
+	shaderPool.AddShader(new Shader("shaders/planet.vs", VERTEX), "planet.vs");
+	shaderPool.AddShader(new Shader("shaders/planet.fs", FRAGMENT), "planet.fs");
 	
-	ShaderProgram* shaderProgram = new ShaderProgram(*shaderPool.RetrieveShader("planet.vs"), *shaderPool.RetrieveShader("planet.fs"));
-	
-	shaderPool.AddShaderProgram(shaderProgram, "planet");
+	shaderPool.AddShaderProgram(new ShaderProgram(*shaderPool.RetrieveShader("planet.vs"), *shaderPool.RetrieveShader("planet.fs")), "planet");
 	
 	maxPlanetsCount = 6;
 	planets = new Planet*[maxPlanetsCount];
+	
+	projection = glm::mat4(1.0f);
 }
 
 Scene::~Scene()
@@ -28,6 +26,7 @@ Scene::~Scene()
 void Scene::Initialize()
 {
 	shaderPool.RetrieveShaderProgram("planet")->use();
+	shaderPool.RetrieveShaderProgram("planet")->setMat4("projection", projection);
 }
 
 void Scene::AddPlanet(Planet planet)

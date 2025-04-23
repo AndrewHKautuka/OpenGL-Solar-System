@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include <vector>
 
 #include "ShaderPool.hpp"
@@ -13,6 +14,8 @@ private:
 	unsigned int maxPlanetsCount;
 	unsigned int planetsCount = 0;
 	Planet** planets;
+	
+	glm::mat4 projection;
 public:
 	Scene();
 	~Scene();
