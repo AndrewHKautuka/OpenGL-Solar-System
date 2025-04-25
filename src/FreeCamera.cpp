@@ -13,8 +13,8 @@ FreeCamera::~FreeCamera()
 
 void FreeCamera::AddDirectionOffest(float xOffset, float yOffset)
 {
-	yaw = fmod(yaw + xOffset, 360.0f) - 180.0f;
-	pitch = fmod(pitch + yOffset, 360.0f) - 180.0f;
+	yaw = fmod(yaw + xOffset, 360.0f);
+	pitch = fmod(pitch + yOffset, 360.0f);
 	
 	glm::clamp(pitch, minPitch, maxPitch);
 	
