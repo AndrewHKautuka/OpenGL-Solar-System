@@ -2,7 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "FixedCamera.hpp"
+#include "FreeCamera.hpp"
 
 Scene::Scene()
 {
@@ -28,7 +28,7 @@ Scene::~Scene()
 
 void Scene::Initialize(float pAspectRatio)
 {
-	camera = new FixedCamera(new glm::vec3(0.0f, 0.0f, -3.0f), new glm::vec3(0.0f, 0.0f, 0.0f));
+	camera = new FreeCamera(new glm::vec3(0.0f, 0.0f, -3.0f), glm::vec3(0.0f, 0.0f, 3.0f));
 	
 	SetAspectRatio(pAspectRatio);
 	
