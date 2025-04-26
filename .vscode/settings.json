@@ -59,6 +59,9 @@
 		"vector": "cpp",
 		"xhash": "cpp",
 		"fstream": "cpp",
-		"sstream": "cpp"
+		"sstream": "cpp",
+		"map": "cpp",
+		"xtree": "cpp",
+		"*.rh": "cpp"
 	}
 }
