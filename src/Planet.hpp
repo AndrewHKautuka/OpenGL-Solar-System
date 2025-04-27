@@ -2,13 +2,14 @@
 
 #include <glm/glm.hpp>
 
+#include "ShaderProgram.hpp"
 #include "Sphere.h"
 #include "Texture.hpp"
 
 class Planet
 {
 public:
-	Planet(float pRadius, unsigned int pStackCount, Texture pTexture);
+	Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader);
 	virtual ~Planet();
 	
 	void Update();
@@ -18,6 +19,7 @@ private:
 	unsigned int VBO;
 	unsigned int EBO;
 	
+	ShaderProgram* shader;
 	Sphere mesh;
 	Texture texture;
 	glm::mat4 modelMatrix;

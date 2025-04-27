@@ -5,7 +5,7 @@
 
 #include "gLErrorHandle.hpp"
 
-Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
+Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -36,6 +36,7 @@ Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture) : text
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	
+	shader = pShader;
 	modelMatrix = glm::mat4(1.0f);
 }
 
