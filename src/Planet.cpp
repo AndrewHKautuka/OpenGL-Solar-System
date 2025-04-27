@@ -51,6 +51,9 @@ void Planet::Update()
 
 void Planet::Draw() const
 {
+	shader->use();
+	shader->setMat4("model", modelMatrix);
+	
 	glActiveTexture(GL_TEXTURE0);
 	texture.BindTexture();
 	
