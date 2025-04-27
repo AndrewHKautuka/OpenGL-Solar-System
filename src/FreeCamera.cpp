@@ -23,7 +23,7 @@ void FreeCamera::AddDirectionOffest(float xOffset, float yOffset)
 	glm::vec3 direction;
 	direction.x = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	direction.y = sin(glm::radians(pitch));
-	direction.z = -cos(glm::radians(yaw)) * cos(glm::radians(pitch));
+	direction.z = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
 	
 	forward = glm::normalize(direction);
 	right = glm::normalize(glm::cross(forward, initialUp));
