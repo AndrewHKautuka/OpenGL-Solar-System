@@ -27,6 +27,11 @@ Camera::~Camera()
 	}
 }
 
+glm::vec3 Camera::GetPosition() const
+{
+	return *position;
+}
+
 void Camera::SetPosition(glm::vec3* pPosition)
 {
 	position = pPosition;
