@@ -26,5 +26,7 @@ public:
 	void AddPlanet(Planet planet);
 	void Initialize(float pAspectRatio);
 	void SetAspectRatio(float pAspectRatio);
+	
+	void Update();
 	void Render();
 };

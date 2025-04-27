@@ -48,6 +48,10 @@ void Scene::AddPlanet(Planet planet)
 	planetsCount++;
 }
 
+void Scene::Update()
+{
+}
+
 void Scene::Render()
 {
 	shaderPool.RetrieveShaderProgram("planet")->use();
