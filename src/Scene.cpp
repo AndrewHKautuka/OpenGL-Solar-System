@@ -4,8 +4,10 @@
 
 #include "FreeCamera.hpp"
 
-Scene::Scene()
+Scene::Scene(InputHandler* pInput)
 {
+	input = pInput;
+	
 	shaderPool.AddShader(new Shader("shaders/planet.vs", VERTEX), "planet.vs");
 	shaderPool.AddShader(new Shader("shaders/planet.fs", FRAGMENT), "planet.fs");
 	
@@ -50,6 +52,7 @@ void Scene::AddPlanet(Planet planet)
 
 void Scene::Update()
 {
+	input->Update();
 }
 
 void Scene::Render()

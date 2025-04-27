@@ -8,6 +8,7 @@ const double Display::TARGET_DELTA_TIME = 1000000.0 / Display::UPDATES_PER_SEC;
 Display::Display(unsigned int pWidth, unsigned int pHeight, const char* pTitle) : mWidth(pWidth), mHeight(pHeight), mTitle(pTitle), mWindow(glfwCreateWindow(mWidth, mHeight, mTitle, NULL, NULL))
 {
 	scene = nullptr;
+	input = new InputHandler(mWindow);
 }
 
 Display::~Display()
@@ -17,6 +18,7 @@ Display::~Display()
 		delete scene;
 		scene = nullptr;
 	}
+	input->Unbind();
 	
 	// GLFW Termination
 	glfwTerminate();
@@ -27,7 +29,8 @@ void Display::Initialize()
 	GLCall(glViewport(0, 0, mWidth, mHeight));
 	glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
 	
-	scene = new Scene;
+	input->Bind();
+	scene = new Scene(input);
 }
 
 void Display::RequestFocus()

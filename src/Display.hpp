@@ -4,6 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Timer.h"
+#include "InputHandler.hpp"
 #include "Scene.hpp"
 
 class Display
@@ -26,6 +27,7 @@ public:
 	void Run();
 private:
 	Scene* scene;
+	InputHandler* input;
 	
 	Timer timer;
 	

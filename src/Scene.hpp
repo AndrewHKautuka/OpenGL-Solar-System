@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
+#include "InputHandler.hpp"
 #include "Camera.hpp"
 #include "ShaderPool.hpp"
 #include "Planet.hpp"
@@ -13,6 +14,7 @@ private:
 	float aspectRatio;
 	ShaderPool shaderPool;
 	Camera* camera;
+	InputHandler* input;
 	
 	unsigned int maxPlanetsCount;
 	unsigned int planetsCount = 0;
@@ -20,7 +22,7 @@ private:
 	
 	glm::mat4 projection;
 public:
-	Scene();
+	Scene(InputHandler* pInput);
 	~Scene();
 	
 	void AddPlanet(Planet planet);
