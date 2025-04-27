@@ -9,6 +9,7 @@ public:
 	Planet(float pRadius, unsigned int pStackCount, Texture pTexture);
 	virtual ~Planet();
 	
+	void Update();
 	void Draw() const;
 private:
 	unsigned int VAO;

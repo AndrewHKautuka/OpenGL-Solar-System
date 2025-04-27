@@ -38,7 +38,10 @@ Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture) : text
 
 Planet::~Planet()
 {
-	
+}
+
+void Planet::Update()
+{
 }
 
 void Planet::Draw() const
