@@ -35,6 +35,29 @@ void Scene::Initialize(float pAspectRatio)
 {
 	camera = new FreeCamera(new glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	
+	Texture sunTexture("textures/sunmap.jpg");
+	Texture mercuryTexture("textures/mercurymap.jpg");
+	Texture venusTexture("textures/venusmap.jpg");
+	Texture earthTexture("textures/earthmap1k.jpg");
+	Texture moonTexture("textures/moonmap1k.jpg", GL_RED);
+	Texture marsTexture("textures/marsmap1k.jpg");
+	
+	ShaderProgram* planetShader = shaderPool.RetrieveShaderProgram("planet");
+	
+	Planet sun(1.0f, 18, sunTexture, planetShader);
+	Planet mercury(1.0f, 18, mercuryTexture, planetShader);
+	Planet venus(1.0f, 18, venusTexture, planetShader);
+	Planet earth(1.0f, 18, earthTexture, planetShader);
+	Planet moon(1.0f, 18, moonTexture, planetShader);
+	Planet mars(1.0f, 18, marsTexture, planetShader);
+	
+	AddPlanet(sun);
+	AddPlanet(mercury);
+	AddPlanet(venus);
+	AddPlanet(earth);
+	AddPlanet(moon);
+	AddPlanet(mars);
+	
 	input->AddStateAction(GLFW_KEY_W, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f,  *moveSpeed)); });
 	input->AddStateAction(GLFW_KEY_S, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f, -*moveSpeed)); });
 	input->AddStateAction(GLFW_KEY_A, PRESSED, [=](){ camera->Move(glm::vec3(-*moveSpeed, 0.0f,  0.0f)); });
