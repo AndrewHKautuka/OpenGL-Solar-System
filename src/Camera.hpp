@@ -25,8 +25,8 @@ public:
 	Camera(glm::vec3* pPosition, glm::vec3 pWorldUp, float pMinPitch, float pMaxPitch);
 	virtual ~Camera();
 	
-	void SetPosition(glm::vec3* pPosition);
-	void SetTarget(glm::vec3* pTarget);
+	virtual void SetPosition(glm::vec3* pPosition);
+	virtual void SetTarget(glm::vec3* pTarget);
 	virtual void AddDirectionOffest(float xOffset, float yOffset) = 0;
 	
 	glm::mat4 GetViewMatrix() const;
