@@ -1,6 +1,6 @@
 #include "FreeCamera.hpp"
 
-FreeCamera::FreeCamera(glm::vec3* pPosition, glm::vec3 pForward) : Camera(pPosition, MIN_PITCH, MAX_PITCH)
+FreeCamera::FreeCamera(glm::vec3* pPosition, glm::vec3 pWorldUp, glm::vec3 pForward) : Camera(pPosition, pWorldUp, MIN_PITCH, MAX_PITCH)
 {
 	forward = pForward;
 	target = new glm::vec3(*position + forward);

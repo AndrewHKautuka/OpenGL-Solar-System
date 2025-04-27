@@ -1,6 +1,6 @@
 #include "FixedCamera.hpp"
 
-FixedCamera::FixedCamera(glm::vec3* pPosition, glm::vec3* pTarget) : Camera (pPosition, MIN_PITCH, MAX_PITCH)
+FixedCamera::FixedCamera(glm::vec3* pPosition, glm::vec3 pWorldUp, glm::vec3* pTarget) : Camera (pPosition, pWorldUp, MIN_PITCH, MAX_PITCH)
 {
 	target = pTarget;
 }

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Camera::Camera(glm::vec3* pPosition, float pMinPitch, float pMaxPitch) : position(pPosition), minPitch(glm::max(pMinPitch, MIN_PITCH)), maxPitch(glm::min(pMaxPitch, MAX_PITCH))
+Camera::Camera(glm::vec3* pPosition, glm::vec3 pWorldUp, float pMinPitch, float pMaxPitch) : position(pPosition), minPitch(glm::max(pMinPitch, MIN_PITCH)), maxPitch(glm::min(pMaxPitch, MAX_PITCH))
 {
 	if (minPitch > maxPitch)
 	{
@@ -10,6 +10,7 @@ Camera::Camera(glm::vec3* pPosition, float pMinPitch, float pMaxPitch) : positio
 		std::cout << "Undefined camera behaviour will occur" << std::endl;
 	}
 	
+	initialUp = pWorldUp;
 }
 
 Camera::~Camera()

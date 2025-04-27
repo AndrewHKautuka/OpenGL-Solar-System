@@ -22,7 +22,7 @@ protected:
 	
 	const float minPitch, maxPitch;
 public:
-	Camera(glm::vec3* pPosition, float pMinPitch, float pMaxPitch);
+	Camera(glm::vec3* pPosition, glm::vec3 pWorldUp, float pMinPitch, float pMaxPitch);
 	virtual ~Camera();
 	
 	void SetPosition(glm::vec3* pPosition);
