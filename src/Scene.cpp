@@ -28,7 +28,7 @@ Scene::~Scene()
 
 void Scene::Initialize(float pAspectRatio)
 {
-	camera = new FreeCamera(new glm::vec3(0.0f, 0.0f, -3.0f), glm::vec3(0.0f, 0.0f, 3.0f));
+	camera = new FreeCamera(new glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 	
 	SetAspectRatio(pAspectRatio);
 	
