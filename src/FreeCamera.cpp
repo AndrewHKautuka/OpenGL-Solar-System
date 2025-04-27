@@ -4,8 +4,8 @@ FreeCamera::FreeCamera(glm::vec3* pPosition, glm::vec3 pWorldUp, glm::vec3 pForw
 {
 	forward = pForward;
 	target = new glm::vec3(*position + forward);
-	cameraFront = pCameraFront;
-	target = new glm::vec3(*position + cameraFront);
+	right = glm::normalize(glm::cross(forward, initialUp));
+	up = glm::cross(right, forward);
 }
 
 FreeCamera::~FreeCamera()
