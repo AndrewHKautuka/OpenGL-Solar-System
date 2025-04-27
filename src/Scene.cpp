@@ -28,6 +28,9 @@ Scene::~Scene()
 	planets = nullptr;
 }
 
+float* moveSpeed = new float(0.5f);
+float* rotSpeed = new float(1.0f);
+
 void Scene::Initialize(float pAspectRatio)
 {
 	camera = new FreeCamera(new glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
