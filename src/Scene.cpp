@@ -57,7 +57,7 @@ void Scene::SetAspectRatio(float pAspectRatio)
 	projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
 }
 
-void Scene::AddPlanet(Planet planet)
+void Scene::AddPlanet(const Planet& planet)
 {
 	planets[planetsCount] = new Planet(planet);
 	planetsCount++;
@@ -70,8 +70,9 @@ void Scene::Update()
 
 void Scene::Render()
 {
-	shaderPool.RetrieveShaderProgram("planet")->use();
-	shaderPool.RetrieveShaderProgram("planet")->setMat4("view", camera->GetViewMatrix());
+	auto shader = shaderPool.RetrieveShaderProgram("planet");
+	shader->use();
+	shader->setMat4("view", camera->GetViewMatrix());
 	
 	for (unsigned int i = 0; i < planetsCount; i++)
 	{
