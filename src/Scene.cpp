@@ -47,12 +47,19 @@ void Scene::Initialize(float pAspectRatio)
 	// (Model) radii of celestial bodies
 	float rSun = 1.0f, rMercury = 0.2f, rVenus = 0.4f, rEarth = 0.5f, rMoon = 0.1f, rMars = 0.3f;
 	
-	Planet sun(rSun, 18, sunTexture, planetShader);
-	Planet mercury(rMercury, 18, mercuryTexture, planetShader);
-	Planet venus(rVenus, 18, venusTexture, planetShader);
-	Planet earth(rEarth, 18, earthTexture, planetShader);
-	Planet moon(rMoon, 18, moonTexture, planetShader);
-	Planet mars(rMars, 18, marsTexture, planetShader);
+	// (Model) distances between celestial body and sun
+	float dMercury = rSun + 0.4f + rMercury;
+	float dVenus = dMercury + rMercury + 0.4f + rVenus;
+	float dEarth = dVenus + rVenus + 0.4f + rEarth;
+	float dMoon = dEarth + rEarth + 0.2f + rMoon;
+	float dMars = dEarth + rEarth + 0.4f + rMars;
+	
+	Planet sun(rSun, glm::vec3(0.0f, 0.0f, 0.0f), 18, sunTexture, planetShader);
+	Planet mercury(rMercury, glm::vec3(-dMercury, 0.0f, 0.0f), 18, mercuryTexture, planetShader);
+	Planet venus(rVenus, glm::vec3(dVenus, 0.0f, 0.0f), 18, venusTexture, planetShader);
+	Planet earth(rEarth, glm::vec3(-dEarth, 0.0f, 0.0f), 18, earthTexture, planetShader);
+	Planet moon(rMoon, glm::vec3(-dMoon, 0.0f, 0.0f), 18, moonTexture, planetShader);
+	Planet mars(rMars, glm::vec3(dMars, 0.0f, 0.0f), 18, marsTexture, planetShader);
 	
 	AddPlanet(sun);
 	AddPlanet(mercury);

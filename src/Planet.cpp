@@ -5,7 +5,7 @@
 
 #include "gLErrorHandle.hpp"
 
-Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
+Planet::Planet(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -37,16 +37,21 @@ Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, Shader
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	
 	shader = pShader;
+	position = new glm::vec3(pPosition);
 	modelMatrix = glm::mat4(1.0f);
+	modelMatrix = glm::translate(modelMatrix, *position);
 }
 
 Planet::~Planet()
 {
+	delete position;
+	position = nullptr;
 }
 
 void Planet::Update()
 {
 	modelMatrix = glm::mat4(1.0f);
+	modelMatrix = glm::translate(modelMatrix, *position);
 }
 
 void Planet::Draw() const

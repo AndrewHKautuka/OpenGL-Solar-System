@@ -9,7 +9,7 @@
 class Planet
 {
 public:
-	Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader);
+	Planet(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader);
 	virtual ~Planet();
 	
 	void Update();
@@ -22,5 +22,6 @@ private:
 	ShaderProgram* shader;
 	Sphere mesh;
 	Texture texture;
+	glm::vec3* position;
 	glm::mat4 modelMatrix;
 };
