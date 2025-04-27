@@ -11,6 +11,7 @@ protected:
 	glm::vec3* position;
 	glm::vec3* target;
 	glm::vec3 initialUp;
+	glm::vec3 forward;
 	glm::vec3 right;
 	glm::vec3 up;
 	
@@ -18,6 +19,7 @@ protected:
 	
 	float pitch;
 	float yaw;
+	
 	const float minPitch, maxPitch;
 public:
 	Camera(glm::vec3* pPosition, float pMinPitch, float pMaxPitch);

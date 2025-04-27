@@ -1,7 +1,9 @@
 #include "FreeCamera.hpp"
 
-FreeCamera::FreeCamera(glm::vec3* pPosition, glm::vec3 pCameraFront) : Camera(pPosition, MIN_PITCH, MAX_PITCH)
+FreeCamera::FreeCamera(glm::vec3* pPosition, glm::vec3 pForward) : Camera(pPosition, MIN_PITCH, MAX_PITCH)
 {
+	forward = pForward;
+	target = new glm::vec3(*position + forward);
 	cameraFront = pCameraFront;
 	target = new glm::vec3(*position + cameraFront);
 }
@@ -22,12 +24,6 @@ void FreeCamera::AddDirectionOffest(float xOffset, float yOffset)
 	direction.x = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
 	direction.y = sin(glm::radians(pitch));
 	direction.z = -cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-	cameraFront = glm::normalize(direction);
-	*target = *position + cameraFront;
-}
-
-void FreeCamera::SetCameraFront(glm::vec3 pCameraFront)
-{
-	cameraFront = pCameraFront;
-	*target = *position + cameraFront;
+	forward = glm::normalize(direction);
+	*target = *position + forward;
 }
