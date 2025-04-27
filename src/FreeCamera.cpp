@@ -27,3 +27,9 @@ void FreeCamera::AddDirectionOffest(float xOffset, float yOffset)
 	forward = glm::normalize(direction);
 	*target = *position + forward;
 }
+
+void FreeCamera::Move(glm::vec3 deltaMove)
+{
+	Camera::Move(deltaMove);
+	*target = *position + forward;
+}

@@ -9,4 +9,5 @@ public:
 	~FreeCamera();
 	
 	void AddDirectionOffest(float xOffset, float yOffset) override;
+	void Move(glm::vec3 deltaMove) override;
 };

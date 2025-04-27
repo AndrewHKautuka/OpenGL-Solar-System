@@ -27,6 +27,7 @@ public:
 	
 	glm::vec3 GetPosition() const;
 	virtual void SetPosition(glm::vec3* pPosition);
+	virtual void Move(glm::vec3 deltaMove);
 	virtual void SetTarget(glm::vec3* pTarget);
 	virtual void AddDirectionOffest(float xOffset, float yOffset) = 0;
 	

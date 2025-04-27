@@ -37,6 +37,13 @@ void Camera::SetPosition(glm::vec3* pPosition)
 	position = pPosition;
 }
 
+void Camera::Move(glm::vec3 deltaMove)
+{
+	*position += deltaMove.z * forward;
+	*position += deltaMove.x * right;
+	*position += deltaMove.y * up;
+}
+
 void Camera::SetTarget(glm::vec3* pTarget)
 {
 	target = pTarget;
