@@ -1,6 +1,7 @@
 #include "Planet.hpp"
 
 #include <glad/glad.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "gLErrorHandle.hpp"
 
@@ -34,6 +35,8 @@ Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture) : text
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	
+	modelMatrix = glm::mat4(1.0f);
 }
 
 Planet::~Planet()
@@ -42,6 +45,7 @@ Planet::~Planet()
 
 void Planet::Update()
 {
+	modelMatrix = glm::mat4(1.0f);
 }
 
 void Planet::Draw() const

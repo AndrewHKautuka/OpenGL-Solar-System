@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/glm.hpp>
+
 #include "Sphere.h"
 #include "Texture.hpp"
 
@@ -18,4 +20,5 @@ private:
 	
 	Sphere mesh;
 	Texture texture;
+	glm::mat4 modelMatrix;
 };
