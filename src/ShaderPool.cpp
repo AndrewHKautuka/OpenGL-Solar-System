@@ -11,13 +11,7 @@ ShaderPool::~ShaderPool()
 
 bool ShaderPool::AddShader(Shader* shader, std::string name)
 {
-	if (ContainsShader(name))
-	{
-		return false;
-	}
-	
-	shaders.insert(std::pair(name, shader));
-	return true;
+	return shaders.insert(std::pair(name, shader)).second;
 }
 
 bool ShaderPool::ContainsShader(std::string name)
@@ -37,7 +31,12 @@ Shader* ShaderPool::RetrieveShader(std::string name)
 
 void ShaderPool::DeleteShader(std::string name)
 {
-	Shader* shader = RetrieveShader(name);
+	if (!ContainsShader(name))
+	{
+		return;
+	}
+	
+	Shader* shader = shaders.at(name);
 	shaders.erase(name);
 	
 	delete shader;
@@ -56,13 +55,7 @@ void ShaderPool::ClearShaders()
 
 bool ShaderPool::AddShaderProgram(ShaderProgram* program, std::string name)
 {
-	if (ContainsShaderProgram(name))
-	{
-		return false;
-	}
-	
-	programs.insert(std::pair(name, program));
-	return true;
+	return programs.insert(std::pair(name, program)).second;
 }
 
 bool ShaderPool::ContainsShaderProgram(std::string name)
@@ -82,7 +75,12 @@ ShaderProgram* ShaderPool::RetrieveShaderProgram(std::string name)
 
 void ShaderPool::DeleteShaderProgram(std::string name)
 {
-	ShaderProgram* program = RetrieveShaderProgram(name);
+	if (!ContainsShaderProgram(name))
+	{
+		return;
+	}
+	
+	ShaderProgram* program = programs.at(name);
 	programs.erase(name);
 	
 	delete program;
