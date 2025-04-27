@@ -44,12 +44,15 @@ void Scene::Initialize(float pAspectRatio)
 	
 	ShaderProgram* planetShader = shaderPool.RetrieveShaderProgram("planet");
 	
-	Planet sun(1.0f, 18, sunTexture, planetShader);
-	Planet mercury(1.0f, 18, mercuryTexture, planetShader);
-	Planet venus(1.0f, 18, venusTexture, planetShader);
-	Planet earth(1.0f, 18, earthTexture, planetShader);
-	Planet moon(1.0f, 18, moonTexture, planetShader);
-	Planet mars(1.0f, 18, marsTexture, planetShader);
+	// (Model) radii of celestial bodies
+	float rSun = 1.0f, rMercury = 0.2f, rVenus = 0.4f, rEarth = 0.5f, rMoon = 0.1f, rMars = 0.3f;
+	
+	Planet sun(rSun, 18, sunTexture, planetShader);
+	Planet mercury(rMercury, 18, mercuryTexture, planetShader);
+	Planet venus(rVenus, 18, venusTexture, planetShader);
+	Planet earth(rEarth, 18, earthTexture, planetShader);
+	Planet moon(rMoon, 18, moonTexture, planetShader);
+	Planet mars(rMars, 18, marsTexture, planetShader);
 	
 	AddPlanet(sun);
 	AddPlanet(mercury);
