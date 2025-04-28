@@ -82,6 +82,13 @@ void Scene::Initialize(float pAspectRatio)
 	input->AddStateAction(GLFW_KEY_UP	, PRESSED, [=](){ camera->AddDirectionOffest(0,  *rotSpeed); });
 	input->AddStateAction(GLFW_KEY_DOWN	, PRESSED, [=](){ camera->AddDirectionOffest(0, -*rotSpeed); });
 	
+	const float mouseSensitivity = 0.1f;
+	
+	input->SetMouseMoveCommand([=](double xPos, double yPos){
+		auto lastPos = input->GetLastMousePosition();
+		camera->AddDirectionOffest(mouseSensitivity * (xPos - lastPos.first), mouseSensitivity * (yPos - lastPos.second));
+	});
+	
 	SetAspectRatio(pAspectRatio);
 	
 	shaderPool.RetrieveShaderProgram("planet")->use();
