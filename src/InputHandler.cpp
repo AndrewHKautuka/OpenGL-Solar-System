@@ -21,10 +21,14 @@ void InputHandler::Bind()
 {
 	glfwSetWindowUserPointer(window, this);
 	glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, mouse_move_callback);
+	glfwSetScrollCallback(window, mouse_scroll_callback);
 }
 
 void InputHandler::Unbind()
 {
+	glfwSetScrollCallback(window, nullptr);
+	glfwSetCursorPosCallback(window, nullptr);
 	glfwSetKeyCallback(window, nullptr);
 	glfwSetWindowUserPointer(window, nullptr);
 }
@@ -97,6 +101,36 @@ void InputHandler::ChangeCommand(int key, int action, int modifiers, std::functi
 	}
 }
 
+void InputHandler::SetMouseMoveCommand(std::function<void(double, double)> command)
+{
+	mouseMoveCommand = command;
+}
+
+void InputHandler::UnsetMouseMoveCommand()
+{
+	mouseMoveCommand = nullptr;
+}
+
+void InputHandler::SetMouseScrollCommand(std::function<void(double, double)> command)
+{
+	mouseScrollCommand = command;
+}
+
+void InputHandler::UnsetMouseScrollCommand()
+{
+	mouseScrollCommand = nullptr;
+}
+
+std::pair<double, double> InputHandler::GetLastMousePosition()
+{
+	return lastMousePosition;
+}
+
+std::pair<double, double> InputHandler::GetLastMouseScroll()
+{
+	return lastMouseScroll;
+}
+
 void InputHandler::HandleKeyInput(int key, int action, int modifiers)
 {
 	if (action == GLFW_PRESS)
@@ -120,7 +154,49 @@ void InputHandler::HandleKeyInput(int key, int action, int modifiers)
 	iterator->second();
 }
 
+void InputHandler::HandleMouseMoveInput(double xPos, double yPos)
+{
+	if (firstMouseMoveEvent)
+	{
+		lastMousePosition = std::make_pair(xPos, yPos);
+		firstMouseMoveEvent = false;
+	}
+	
+	if (mouseMoveCommand != nullptr)
+	{
+		mouseMoveCommand(xPos, yPos);
+	}
+	
+	lastMousePosition = std::make_pair(xPos, yPos);
+}
+
+void InputHandler::HandleMouseScrollInput(double xScroll, double yScroll)
+{
+	if (firstMouseScrollEvent)
+	{
+		lastMouseScroll = std::make_pair(xScroll, yScroll);
+		firstMouseScrollEvent = false;
+	}
+	
+	if (mouseScrollCommand != nullptr)
+	{
+		mouseScrollCommand(xScroll, xScroll);
+	}
+	
+	lastMouseScroll = std::make_pair(xScroll, yScroll);
+}
+
 void InputHandler::key_callback(GLFWwindow* window, int key, int scancode, int action, int modifiers)
 {
 	((InputHandler*) glfwGetWindowUserPointer(window))->HandleKeyInput(key, action, modifiers);
+}
+
+void InputHandler::mouse_move_callback(GLFWwindow* window, double xPos, double yPos)
+{
+	((InputHandler*) glfwGetWindowUserPointer(window))->HandleMouseMoveInput(xPos, yPos);
+}
+
+void InputHandler::mouse_scroll_callback(GLFWwindow* window, double xScroll, double yScroll)
+{
+	((InputHandler*) glfwGetWindowUserPointer(window))->HandleMouseScrollInput(xScroll, yScroll);
 }

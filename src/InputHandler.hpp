@@ -25,6 +25,11 @@ private:
 	std::unordered_map<std::tuple<int, int, int>, std::function<void()>, hash_tuple::hash<std::tuple<int, int, int>>> keyCommandMap;
 	// Maps key and key state to Action (performed every update)
 	std::unordered_map<std::tuple<int, KeyState>, std::function<void()>, hash_tuple::hash<std::tuple<int, KeyState>>> keyStateActionMap;
+	std::function<void(double, double)> mouseMoveCommand = nullptr;
+	std::function<void(double, double)> mouseScrollCommand = nullptr;
+	bool firstMouseMoveEvent = true, firstMouseScrollEvent = true;
+	std::pair<double, double> lastMousePosition;
+	std::pair<double, double> lastMouseScroll;
 public:
 	InputHandler(GLFWwindow* pWindow);
 	~InputHandler();
@@ -43,9 +48,23 @@ public:
 	void AddCommand(int key, int action, int modifiers, std::function<void()> command);
 	void RemoveCommand(int key, int action, int modifiers);
 	void ChangeCommand(int key, int action, int modifiers, std::function<void()> command);
+	
+	void SetMouseMoveCommand(std::function<void(double, double)> command);
+	void UnsetMouseMoveCommand();
+	
+	void SetMouseScrollCommand(std::function<void(double, double)> command);
+	void UnsetMouseScrollCommand();
+	
+	std::pair<double, double> GetLastMousePosition();
+	std::pair<double, double> GetLastMouseScroll();
 private:
 	void HandleKeyInput(int key, int action, int modifiers);
+	void HandleMouseMoveInput(double xPos, double yPos);
+	void HandleMouseScrollInput(double xScroll, double yScroll);
+	
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int modifiers);
+	static void mouse_move_callback(GLFWwindow* window, double xPos, double yPos);
+	static void mouse_scroll_callback(GLFWwindow* window, double xScroll, double yScroll);
 };
 
 // Only define GLFW_MOD_NONE if it is not already defined
