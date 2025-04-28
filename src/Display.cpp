@@ -42,13 +42,15 @@ void Display::Run()
 {
 	scene->Initialize((float) mWidth / (float) mHeight);
 	
+	glEnable(GL_DEPTH_TEST);
+	
 	// Render loop
 	double deltaTime = 0.0;
 	timer.start();
 	while (!glfwWindowShouldClose(mWindow))
 	{
 		GLCall(glClearColor(clearColor[0], clearColor[1], clearColor[2], clearColor[3]));
-		GLCall(glClear(GL_COLOR_BUFFER_BIT));
+		GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 		
 		// Fixed Update (as opposed to a deltaTime update)
 		// getElapsedTime...() automatically stops the timer so timer.stop() is not needed
