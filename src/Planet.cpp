@@ -54,9 +54,11 @@ void Planet::Update()
 	modelMatrix = glm::translate(modelMatrix, *position);
 }
 
-void Planet::Draw() const
+void Planet::Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const
 {
 	shader->use();
+	shader->setMat4("projection", *projectionMatrix);
+	shader->setMat4("view", *viewMatrix);
 	shader->setMat4("model", modelMatrix);
 	
 	glActiveTexture(GL_TEXTURE0);

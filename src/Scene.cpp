@@ -103,12 +103,10 @@ void Scene::Update()
 
 void Scene::Render()
 {
-	auto shader = shaderPool.RetrieveShaderProgram("planet");
-	shader->use();
-	shader->setMat4("view", camera->GetViewMatrix());
+	glm::mat4 view = camera->GetViewMatrix();
 	
 	for (unsigned int i = 0; i < planetsCount; i++)
 	{
-		planets[i]->Draw();
+		planets[i]->Draw(&projection, &view);
 	}
 }

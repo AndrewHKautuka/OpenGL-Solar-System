@@ -13,7 +13,7 @@ public:
 	virtual ~Planet();
 	
 	void Update();
-	void Draw() const;
+	void Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const;
 private:
 	unsigned int VAO;
 	unsigned int VBO;
