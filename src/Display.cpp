@@ -43,6 +43,8 @@ void Display::Run()
 {
 	scene->Initialize((float) mWidth / (float) mHeight);
 	
+	glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	
 	glEnable(GL_DEPTH_TEST);
 	
 	// Render loop
