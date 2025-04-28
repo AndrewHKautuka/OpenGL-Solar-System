@@ -10,8 +10,12 @@ Scene::Scene(InputHandler* pInput)
 	
 	shaderPool.AddShader(new Shader("shaders/planet.vs", VERTEX), "planet.vs");
 	shaderPool.AddShader(new Shader("shaders/planet.fs", FRAGMENT), "planet.fs");
+	shaderPool.AddShader(new Shader("shaders/moon.fs", FRAGMENT), "moon.fs");
 	
 	shaderPool.AddShaderProgram(new ShaderProgram(*shaderPool.RetrieveShader("planet.vs"), *shaderPool.RetrieveShader("planet.fs")), "planet");
+	shaderPool.AddShaderProgram(new ShaderProgram(*shaderPool.RetrieveShader("planet.vs"), *shaderPool.RetrieveShader("moon.fs")), "moon");
+	
+	shaderPool.ClearShaders();
 	
 	maxPlanetsCount = 6;
 	planets = new Planet*[maxPlanetsCount];
@@ -21,7 +25,6 @@ Scene::Scene(InputHandler* pInput)
 
 Scene::~Scene()
 {
-	shaderPool.ClearShaders();
 	shaderPool.ClearShaderPrograms();
 	
 	delete [] planets;
@@ -43,6 +46,7 @@ void Scene::Initialize(float pAspectRatio)
 	Texture marsTexture("textures/marsmap1k.jpg");
 	
 	ShaderProgram* planetShader = shaderPool.RetrieveShaderProgram("planet");
+	ShaderProgram* moonShader = shaderPool.RetrieveShaderProgram("moon");
 	
 	// (Model) radii of celestial bodies
 	float rSun = 1.0f, rMercury = 0.2f, rVenus = 0.4f, rEarth = 0.5f, rMoon = 0.1f, rMars = 0.3f;
@@ -58,7 +62,7 @@ void Scene::Initialize(float pAspectRatio)
 	Planet mercury(rMercury, glm::vec3(-dMercury, 0.0f, 0.0f), 18, mercuryTexture, planetShader);
 	Planet venus(rVenus, glm::vec3(dVenus, 0.0f, 0.0f), 18, venusTexture, planetShader);
 	Planet earth(rEarth, glm::vec3(-dEarth, 0.0f, 0.0f), 18, earthTexture, planetShader);
-	Planet moon(rMoon, glm::vec3(-dMoon, 0.0f, 0.0f), 18, moonTexture, planetShader);
+	Planet moon(rMoon, glm::vec3(-dMoon, 0.0f, 0.0f), 18, moonTexture, moonShader);
 	Planet mars(rMars, glm::vec3(dMars, 0.0f, 0.0f), 18, marsTexture, planetShader);
 	
 	AddPlanet(sun);
