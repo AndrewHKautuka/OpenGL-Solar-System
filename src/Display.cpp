@@ -48,6 +48,11 @@ void Display::Run()
 	
 	glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
+	// Set the minimum number of monitor refreshes the driver should wait from the time glfwSwapBuffers was called
+	// before swapping the buffers to 1, preventing screen tearing and fixing frame rate to screen refresh rate.
+	// May not be honored on all graphics card due to user-controlled settings or buggy graphics drivers.
+	glfwSwapInterval(1);
+	
 	glEnable(GL_DEPTH_TEST);
 	
 	// Render loop
