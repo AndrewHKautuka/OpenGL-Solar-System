@@ -20,6 +20,7 @@ public:
 	GLFWwindow* const mWindow;
 	
 	Display(unsigned int pWidth, unsigned int pHeight, const char* pTitle);
+	Display(GLFWmonitor* pMonitor, unsigned int pWidth, unsigned int pHeight, const char* pTitle);
 	~Display();
 	
 	void Initialize();

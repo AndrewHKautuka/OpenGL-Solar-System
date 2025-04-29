@@ -5,7 +5,10 @@
 const double Display::UPDATES_PER_SEC = 60.0;
 const double Display::TARGET_DELTA_TIME = 1000000.0 / Display::UPDATES_PER_SEC;
 
-Display::Display(unsigned int pWidth, unsigned int pHeight, const char* pTitle) : mWidth(pWidth), mHeight(pHeight), mTitle(pTitle), mWindow(glfwCreateWindow(mWidth, mHeight, mTitle, NULL, NULL))
+Display::Display(unsigned int pWidth, unsigned int pHeight, const char* pTitle) : Display(NULL, pWidth, pHeight, pTitle)
+{}
+
+Display::Display(GLFWmonitor* pMonitor, unsigned int pWidth, unsigned int pHeight, const char* pTitle) : mWidth(pWidth), mHeight(pHeight), mTitle(pTitle), mWindow(glfwCreateWindow(mWidth, mHeight, mTitle, pMonitor, NULL))
 {
 	scene = nullptr;
 	input = new InputHandler(mWindow);
