@@ -32,7 +32,6 @@ Scene::~Scene()
 }
 
 float* moveSpeed = new float(0.1f);
-float* rotSpeed = new float(0.1f);
 
 void Scene::Initialize(float pAspectRatio)
 {
@@ -76,11 +75,6 @@ void Scene::Initialize(float pAspectRatio)
 	input->AddKeyStateAction(GLFW_KEY_S, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f, -*moveSpeed)); });
 	input->AddKeyStateAction(GLFW_KEY_A, PRESSED, [=](){ camera->Move(glm::vec3(-*moveSpeed, 0.0f,  0.0f)); });
 	input->AddKeyStateAction(GLFW_KEY_D, PRESSED, [=](){ camera->Move(glm::vec3( *moveSpeed, 0.0f,  0.0f)); });
-	
-	input->AddKeyStateAction(GLFW_KEY_LEFT	, PRESSED, [=](){ camera->AddDirectionOffest( *rotSpeed, 0); });
-	input->AddKeyStateAction(GLFW_KEY_RIGHT, PRESSED, [=](){ camera->AddDirectionOffest(-*rotSpeed, 0); });
-	input->AddKeyStateAction(GLFW_KEY_UP	, PRESSED, [=](){ camera->AddDirectionOffest(0,  *rotSpeed); });
-	input->AddKeyStateAction(GLFW_KEY_DOWN	, PRESSED, [=](){ camera->AddDirectionOffest(0, -*rotSpeed); });
 	
 	const float mouseSensitivity = 0.1f;
 	
