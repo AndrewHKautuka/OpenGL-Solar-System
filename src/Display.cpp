@@ -33,7 +33,7 @@ void Display::Initialize()
 	glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
 	
 	input->Bind();
-	input->AddCommand(GLFW_KEY_ESCAPE, RELEASED, GLFW_MOD_NONE, [=](){ glfwSetWindowShouldClose(mWindow, true); });
+	input->AddKeyCommand(GLFW_KEY_ESCAPE, RELEASED, GLFW_MOD_NONE, [=](){ glfwSetWindowShouldClose(mWindow, true); });
 	scene = new Scene(input);
 }
 

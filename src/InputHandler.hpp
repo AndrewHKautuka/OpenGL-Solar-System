@@ -41,13 +41,13 @@ public:
 	
 	KeyState GetKeyState(int key);
 	
-	void AddStateAction(int key, KeyState state, std::function<void()> action);
-	void RemoveStateAction(int key, KeyState state);
-	void ChangeStateAction(int key, KeyState state, std::function<void()> action);
+	void AddKeyStateAction(int key, KeyState state, std::function<void()> action);
+	void RemoveKeyStateAction(int key, KeyState state);
+	void ChangeKeyStateAction(int key, KeyState state, std::function<void()> action);
 	
-	void AddCommand(int key, int action, int modifiers, std::function<void()> command);
-	void RemoveCommand(int key, int action, int modifiers);
-	void ChangeCommand(int key, int action, int modifiers, std::function<void()> command);
+	void AddKeyCommand(int key, int action, int modifiers, std::function<void()> command);
+	void RemoveKeyCommand(int key, int action, int modifiers);
+	void ChangeKeyCommand(int key, int action, int modifiers, std::function<void()> command);
 	
 	void SetMouseMoveCommand(std::function<void(double, double)> command);
 	void UnsetMouseMoveCommand();

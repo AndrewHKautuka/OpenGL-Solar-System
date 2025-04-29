@@ -61,17 +61,17 @@ KeyState InputHandler::GetKeyState(int key)
 	return keysPressed[key] ? PRESSED : RELEASED;
 }
 
-void InputHandler::AddStateAction(int key, KeyState state, std::function<void()> action)
+void InputHandler::AddKeyStateAction(int key, KeyState state, std::function<void()> action)
 {
 	keyStateActionMap.insert(std::make_pair(std::make_tuple(key, state), action));
 }
 
-void InputHandler::RemoveStateAction(int key, KeyState state)
+void InputHandler::RemoveKeyStateAction(int key, KeyState state)
 {
 	keyStateActionMap.erase(std::make_tuple(key, state));
 }
 
-void InputHandler::ChangeStateAction(int key, KeyState state, std::function<void()> action)
+void InputHandler::ChangeKeyStateAction(int key, KeyState state, std::function<void()> action)
 {
 	auto current = keyStateActionMap.find(std::make_tuple(key, state));
 	
@@ -81,17 +81,17 @@ void InputHandler::ChangeStateAction(int key, KeyState state, std::function<void
 	}
 }
 
-void InputHandler::AddCommand(int key, int action, int modifiers, std::function<void()> command)
+void InputHandler::AddKeyCommand(int key, int action, int modifiers, std::function<void()> command)
 {
 	keyCommandMap.insert(std::make_pair(std::make_tuple(key, action, modifiers), command));
 }
 
-void InputHandler::RemoveCommand(int key, int action, int modifiers)
+void InputHandler::RemoveKeyCommand(int key, int action, int modifiers)
 {
 	keyCommandMap.erase(std::make_tuple(key, action, modifiers));
 }
 
-void InputHandler::ChangeCommand(int key, int action, int modifiers, std::function<void()> command)
+void InputHandler::ChangeKeyCommand(int key, int action, int modifiers, std::function<void()> command)
 {
 	auto current = keyCommandMap.find(std::make_tuple(key, action, modifiers));
 	
