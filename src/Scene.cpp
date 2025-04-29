@@ -31,8 +31,8 @@ Scene::~Scene()
 	planets = nullptr;
 }
 
-float* moveSpeed = new float(0.5f);
-float* rotSpeed = new float(1.0f);
+float* moveSpeed = new float(0.1f);
+float* rotSpeed = new float(0.1f);
 
 void Scene::Initialize(float pAspectRatio)
 {
