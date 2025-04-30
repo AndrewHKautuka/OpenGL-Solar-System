@@ -17,6 +17,8 @@ public:
 	void Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const;
 	
 	void SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitVelocity, float pOrbitAngle);
+	float GetOrbitVelocity() const;
+	void SetOrbitVelocity(float pOrbitVelocity);
 	
 	float GetSpinVelocity() const;
 	void SetSpinVelocity(float pSpinVelocity);

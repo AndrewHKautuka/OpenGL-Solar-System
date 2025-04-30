@@ -92,6 +92,16 @@ void Planet::SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitVelocity, f
 	orbitAngle = pOrbitAngle;
 }
 
+float Planet::GetOrbitVelocity() const
+{
+	return orbitVelocity;
+}
+
+void Planet::SetOrbitVelocity(float pOrbitVelocity)
+{
+	orbitVelocity = pOrbitVelocity;
+}
+
 float Planet::GetSpinVelocity() const
 {
 	return spinVelocity;
