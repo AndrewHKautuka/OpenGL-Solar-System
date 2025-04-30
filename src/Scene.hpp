@@ -25,7 +25,9 @@ public:
 	Scene(InputHandler* pInput);
 	~Scene();
 	
-	void AddPlanet(const Planet& planet);
+	unsigned int AddPlanet(const Planet& planet);
+	Planet* RetrievePlanet(unsigned int id);
+	
 	void Initialize(float pAspectRatio);
 	void SetAspectRatio(float pAspectRatio);
 	

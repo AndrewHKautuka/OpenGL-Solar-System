@@ -106,10 +106,21 @@ void Scene::SetAspectRatio(float pAspectRatio)
 	projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
 }
 
-void Scene::AddPlanet(const Planet& planet)
+unsigned int Scene::AddPlanet(const Planet& planet)
 {
 	planets[planetsCount] = new Planet(planet);
 	planetsCount++;
+	return planetsCount - 1;
+}
+
+Planet* Scene::RetrievePlanet(unsigned int id)
+{
+	if (id >= planetsCount || id < 0)
+	{
+		return nullptr;
+	}
+	
+	return planets[id];
 }
 
 void Scene::Update()
