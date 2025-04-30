@@ -37,15 +37,14 @@ Planet::Planet(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, Tex
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	
 	shader = pShader;
-	position = new glm::vec3(pPosition);
+	position = std::shared_ptr<glm::vec3>(new glm::vec3(pPosition));
 	modelMatrix = glm::mat4(1.0f);
 	modelMatrix = glm::translate(modelMatrix, *position);
 }
 
 Planet::~Planet()
 {
-	delete position;
-	position = nullptr;
+	
 }
 
 void Planet::Update()

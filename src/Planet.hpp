@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <memory>
 
 #include "ShaderProgram.hpp"
 #include "Sphere.h"
@@ -22,6 +23,6 @@ private:
 	ShaderProgram* shader;
 	Sphere mesh;
 	Texture texture;
-	glm::vec3* position;
+	std::shared_ptr<glm::vec3> position;
 	glm::mat4 modelMatrix;
 };
