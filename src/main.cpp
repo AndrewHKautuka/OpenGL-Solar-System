@@ -23,7 +23,7 @@ int main()
 	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
 	
 	// Window Creation
-	Display display(monitor, mode->width, mode->height, "Solar System");
+	Display display(WIDTH, HEIGHT, "Solar System");
 	
 	if (display.mWindow == NULL)
 	{
