@@ -35,7 +35,8 @@ float* moveSpeed = new float(0.1f);
 
 void Scene::Initialize(float pAspectRatio)
 {
-	camera = new FreeCamera(new glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	glm::vec3 worldUp(0.0f, 1.0f, 0.0f);
+	camera = new FreeCamera(new glm::vec3(0.0f, 0.0f, -10.0f), worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
 	
 	Texture sunTexture("textures/sunmap.jpg");
 	Texture mercuryTexture("textures/mercurymap.jpg");
@@ -57,12 +58,22 @@ void Scene::Initialize(float pAspectRatio)
 	float dMoon = dEarth + rEarth + 0.2f + rMoon;
 	float dMars = dEarth + rEarth + 0.4f + rMars;
 	
-	Planet sun(rSun, glm::vec3(0.0f, 0.0f, 0.0f), 18, sunTexture, planetShader);
-	Planet mercury(rMercury, glm::vec3(-dMercury, 0.0f, 0.0f), 18, mercuryTexture, planetShader);
-	Planet venus(rVenus, glm::vec3(dVenus, 0.0f, 0.0f), 18, venusTexture, planetShader);
-	Planet earth(rEarth, glm::vec3(-dEarth, 0.0f, 0.0f), 18, earthTexture, planetShader);
-	Planet moon(rMoon, glm::vec3(-dMoon, 0.0f, 0.0f), 18, moonTexture, moonShader);
-	Planet mars(rMars, glm::vec3(dMars, 0.0f, 0.0f), 18, marsTexture, planetShader);
+	Planet sun(rSun, glm::vec3(0.0f, 0.0f, 0.0f), 18, sunTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet mercury(rMercury, glm::vec3(-dMercury, 0.0f, 0.0f), 18, mercuryTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet venus(rVenus, glm::vec3(dVenus, 0.0f, 0.0f), 18, venusTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet earth(rEarth, glm::vec3(-dEarth, 0.0f, 0.0f), 18, earthTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet moon(rMoon, glm::vec3(-dMoon, 0.0f, 0.0f), 18, moonTexture, moonShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet mars(rMars, glm::vec3(dMars, 0.0f, 0.0f), 18, marsTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	
+	// Set Spin Velocities
+	float sSun = 0.4f, sMercury = 0.2f, sVenus = 0.04f, sEarth = 10.0f, sMoon = 0.35f, sMars = 9.5f;
+	
+	sun.SetSpinVelocity(sSun);
+	mercury.SetSpinVelocity(sMercury);
+	venus.SetSpinVelocity(sVenus);
+	earth.SetSpinVelocity(sEarth);
+	moon.SetSpinVelocity(sMoon);
+	mars.SetSpinVelocity(sMars);
 	
 	AddPlanet(sun);
 	AddPlanet(mercury);
@@ -104,6 +115,11 @@ void Scene::AddPlanet(const Planet& planet)
 void Scene::Update()
 {
 	input->Update();
+	
+	for (unsigned int i = 0; i < planetsCount; i++)
+	{
+		planets[i]->Update();
+	}
 }
 
 void Scene::Render()

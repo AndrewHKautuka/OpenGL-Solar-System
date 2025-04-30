@@ -5,7 +5,7 @@
 
 #include "gLErrorHandle.hpp"
 
-Planet::Planet(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
+Planet::Planet(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -40,6 +40,10 @@ Planet::Planet(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, Tex
 	position = std::shared_ptr<glm::vec3>(new glm::vec3(pPosition));
 	modelMatrix = glm::mat4(1.0f);
 	modelMatrix = glm::translate(modelMatrix, *position);
+	
+	forward = pForward;
+	right = glm::normalize(glm::cross(forward, pWorldUp));
+	up = glm::cross(right, forward);
 }
 
 Planet::~Planet()
@@ -49,8 +53,11 @@ Planet::~Planet()
 
 void Planet::Update()
 {
+	spinAngle += fmod(spinVelocity, 360.0f);
+	
 	modelMatrix = glm::mat4(1.0f);
 	modelMatrix = glm::translate(modelMatrix, *position);
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(spinAngle), up);
 }
 
 void Planet::Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const
@@ -66,4 +73,14 @@ void Planet::Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, (void*) 0);
 	glBindVertexArray(0);
+}
+	
+float Planet::GetSpinVelocity() const
+{
+	return spinVelocity;
+}
+
+void Planet::SetSpinVelocity(float pSpinVelocity)
+{
+	spinVelocity = pSpinVelocity;
 }
