@@ -10,11 +10,13 @@
 class Planet
 {
 public:
-	Planet(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward);
+	Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward);
 	virtual ~Planet();
 	
 	void Update();
 	void Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const;
+	
+	void SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitVelocity, float pOrbitAngle);
 	
 	float GetSpinVelocity() const;
 	void SetSpinVelocity(float pSpinVelocity);
@@ -30,6 +32,11 @@ private:
 	// Speed of the planet's spin on its axis + its direction
 	float spinVelocity = 0.0f;
 	float spinAngle = 0.0f;
+	
+	Planet* host;
+	float orbitRadius = 0.0f;
+	float orbitVelocity = 0.0f;
+	float orbitAngle = 0.0f;
 	
 	ShaderProgram* shader;
 	Sphere mesh;

@@ -5,7 +5,7 @@
 
 #include "gLErrorHandle.hpp"
 
-Planet::Planet(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
+Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -37,9 +37,10 @@ Planet::Planet(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, Tex
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	
 	shader = pShader;
-	position = std::shared_ptr<glm::vec3>(new glm::vec3(pPosition));
+	position = std::shared_ptr<glm::vec3>(new glm::vec3(0.0f, 0.0f, 0.0f));
 	modelMatrix = glm::mat4(1.0f);
 	modelMatrix = glm::translate(modelMatrix, *position);
+	host = nullptr;
 	
 	forward = pForward;
 	right = glm::normalize(glm::cross(forward, pWorldUp));
@@ -54,8 +55,19 @@ Planet::~Planet()
 void Planet::Update()
 {
 	spinAngle += fmod(spinVelocity, 360.0f);
+	orbitAngle += fmod(orbitVelocity, 360.0f);
 	
 	modelMatrix = glm::mat4(1.0f);
+	
+	if (host != nullptr)
+	{
+		glm::vec4 pos(0.0f, 0.0f, -orbitRadius, 1.0f);
+		glm::mat4 rot(1.0f);
+		rot = glm::rotate(rot, glm::radians(orbitAngle), host->up);
+		pos = rot * pos;
+		*position = glm::vec3(pos.x, pos.y, pos.z) + *(host->position);
+	}
+	
 	modelMatrix = glm::translate(modelMatrix, *position);
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(spinAngle), up);
 }
@@ -74,7 +86,15 @@ void Planet::Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const
 	glDrawElements(GL_TRIANGLES, mesh.getIndexCount(), GL_UNSIGNED_INT, (void*) 0);
 	glBindVertexArray(0);
 }
-	
+
+void Planet::SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitVelocity, float pOrbitAngle)
+{
+	host = pHost;
+	orbitRadius = pOrbitRadius;
+	orbitVelocity = pOrbitVelocity;
+	orbitAngle = pOrbitAngle;
+}
+
 float Planet::GetSpinVelocity() const
 {
 	return spinVelocity;

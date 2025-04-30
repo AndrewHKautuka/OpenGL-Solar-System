@@ -52,34 +52,56 @@ void Scene::Initialize(float pAspectRatio)
 	float rSun = 1.0f, rMercury = 0.2f, rVenus = 0.4f, rEarth = 0.5f, rMoon = 0.1f, rMars = 0.3f;
 	
 	// (Model) distances between celestial body and sun
-	float dMercury = rSun + 0.4f + rMercury;
-	float dVenus = dMercury + rMercury + 0.4f + rVenus;
-	float dEarth = dVenus + rVenus + 0.4f + rEarth;
-	float dMoon = dEarth + rEarth + 0.2f + rMoon;
-	float dMars = dEarth + rEarth + 0.4f + rMars;
+	float dMercury = rSun + 1.8f + rMercury;
+	float dVenus = dMercury + rMercury + 1.8f + rVenus;
+	float dEarth = dVenus + rVenus + 1.8f + rEarth;
+	float dMoon = rEarth + 0.6f + rMoon;
+	float dMars = dEarth + rEarth + 1.8f + rMars;
 	
-	Planet sun(rSun, glm::vec3(0.0f, 0.0f, 0.0f), 18, sunTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
-	Planet mercury(rMercury, glm::vec3(-dMercury, 0.0f, 0.0f), 18, mercuryTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
-	Planet venus(rVenus, glm::vec3(dVenus, 0.0f, 0.0f), 18, venusTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
-	Planet earth(rEarth, glm::vec3(-dEarth, 0.0f, 0.0f), 18, earthTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
-	Planet moon(rMoon, glm::vec3(-dMoon, 0.0f, 0.0f), 18, moonTexture, moonShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
-	Planet mars(rMars, glm::vec3(dMars, 0.0f, 0.0f), 18, marsTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	// (Model) spin velocities
+	float spinSpeedMultiplier = 10.0f;
+	float sSun = 0.04f * spinSpeedMultiplier;
+	float sMercury = 0.02f * spinSpeedMultiplier;
+	float sVenus = 0.004f * spinSpeedMultiplier;
+	float sEarth = 1.00f * spinSpeedMultiplier;
+	float sMoon = 0.035f * spinSpeedMultiplier;
+	float sMars = 0.95f * spinSpeedMultiplier;
 	
-	// Set Spin Velocities
-	float sSun = 0.4f, sMercury = 0.2f, sVenus = 0.04f, sEarth = 10.0f, sMoon = 0.35f, sMars = 9.5f;
+	// (Model) orbit velocities
+	float orbitSpeedMultiplier = 100.0f;
+	float oMercury = 0.0115f * orbitSpeedMultiplier;
+	float oVenus = 0.00445f * orbitSpeedMultiplier;
+	float oEarth = 0.00275f * orbitSpeedMultiplier;
+	float oMoon = 0.035f * spinSpeedMultiplier;
+	float oMars = 0.00145f * orbitSpeedMultiplier;
 	
+	Planet sun(rSun, 18, sunTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
 	sun.SetSpinVelocity(sSun);
-	mercury.SetSpinVelocity(sMercury);
-	venus.SetSpinVelocity(sVenus);
-	earth.SetSpinVelocity(sEarth);
-	moon.SetSpinVelocity(sMoon);
-	mars.SetSpinVelocity(sMars);
+	unsigned int sunID = AddPlanet(sun);
 	
-	AddPlanet(sun);
+	Planet mercury(rMercury, 18, mercuryTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	mercury.SetSpinVelocity(sMercury);
+	mercury.SetOrbit(RetrievePlanet(sunID), dMercury, oMercury, 0.0f);
 	AddPlanet(mercury);
+	
+	Planet venus(rVenus, 18, venusTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	venus.SetSpinVelocity(sVenus);
+	venus.SetOrbit(RetrievePlanet(sunID), dVenus, oVenus, 0.0f);
 	AddPlanet(venus);
-	AddPlanet(earth);
-	AddPlanet(moon);
+	
+	Planet earth(rEarth, 18, earthTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	earth.SetSpinVelocity(sEarth);
+	earth.SetOrbit(RetrievePlanet(sunID), dEarth, oEarth, 0.0f);
+	unsigned int earthID = AddPlanet(earth);
+	
+	Planet moon(rMoon, 18, moonTexture, moonShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	moon.SetSpinVelocity(sMoon);
+	moon.SetOrbit(RetrievePlanet(earthID), dMoon, oMoon, 0.0f);
+	unsigned int moonID = AddPlanet(moon);
+	
+	Planet mars(rMars, 18, marsTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	mars.SetSpinVelocity(sMars);
+	mars.SetOrbit(RetrievePlanet(sunID), dMars, oMars, 0.0f);
 	AddPlanet(mars);
 	
 	input->AddKeyStateAction(GLFW_KEY_W, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f,  *moveSpeed)); });
