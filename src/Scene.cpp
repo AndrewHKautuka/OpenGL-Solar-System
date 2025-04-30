@@ -109,6 +109,23 @@ void Scene::Initialize(float pAspectRatio)
 	input->AddKeyStateAction(GLFW_KEY_A, PRESSED, [=](){ camera->Move(glm::vec3(-*moveSpeed, 0.0f,  0.0f)); });
 	input->AddKeyStateAction(GLFW_KEY_D, PRESSED, [=](){ camera->Move(glm::vec3( *moveSpeed, 0.0f,  0.0f)); });
 	
+	input->AddKeyCommand(GLFW_KEY_LEFT, RELEASED, GLFW_MOD_NONE, [=](){
+		Planet* moon = RetrievePlanet(moonID);
+		moon->SetOrbitVelocity(moon->GetOrbitVelocity() + 0.005f * orbitSpeedMultiplier);
+	});
+	input->AddKeyCommand(GLFW_KEY_RIGHT, RELEASED, GLFW_MOD_NONE, [=](){
+		Planet* moon = RetrievePlanet(moonID);
+		moon->SetOrbitVelocity(moon->GetOrbitVelocity() - 0.005f * orbitSpeedMultiplier);
+	});
+	input->AddKeyCommand(GLFW_KEY_UP, RELEASED, GLFW_MOD_NONE, [=](){
+		Planet* sun = RetrievePlanet(sunID);
+		sun->SetSpinVelocity(sun->GetSpinVelocity() + 0.05f * spinSpeedMultiplier);
+	});
+	input->AddKeyCommand(GLFW_KEY_DOWN, RELEASED, GLFW_MOD_NONE, [=](){
+		Planet* sun = RetrievePlanet(sunID);
+		sun->SetSpinVelocity(sun->GetSpinVelocity() - 0.05f * spinSpeedMultiplier);
+	});
+	
 	const float mouseSensitivity = 0.1f;
 	
 	input->SetMouseMoveCommand([=](double xPos, double yPos){
