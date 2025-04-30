@@ -61,10 +61,7 @@ void Planet::Update()
 	
 	if (host != nullptr)
 	{
-		glm::vec4 pos(0.0f, 0.0f, -orbitRadius, 1.0f);
-		glm::mat4 rot(1.0f);
-		rot = glm::rotate(rot, glm::radians(orbitAngle), host->up);
-		pos = rot * pos;
+		glm::vec4 pos = glm::rotate(glm::mat4(1.0f), glm::radians(orbitAngle), host->up) * glm::vec4(0.0f, 0.0f, -orbitRadius, 1.0f);
 		*position = glm::vec3(pos.x, pos.y, pos.z) + *(host->position);
 	}
 	
