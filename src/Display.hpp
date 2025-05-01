@@ -15,7 +15,7 @@ public:
 	
 	unsigned int mWidth, mHeight;
 	
-	const float clearColor[4] = { 0.2f, 0.3f, 0.3f, 1.0f };
+	const float clearColor[4] = { 0.1f, 0.1f, 0.1f, 1.0f };
 	const char* const mTitle;
 	GLFWwindow* const mWindow;
 	
