@@ -6,6 +6,9 @@
 #include "ShaderProgram.hpp"
 #include "Sphere.h"
 #include "Texture.hpp"
+#include "Camera.hpp"
+#include "PointLightSource.hpp"
+#include "DirectionalLightSource.hpp"
 
 class Planet
 {
@@ -14,7 +17,7 @@ public:
 	virtual ~Planet();
 	
 	void Update();
-	void Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const;
+	void Draw(glm::mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource) const;
 	
 	void SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitVelocity, float pOrbitAngle);
 	float GetOrbitVelocity() const;
@@ -30,6 +33,8 @@ private:
 	glm::vec3 forward;
 	glm::vec3 right;
 	glm::vec3 up;
+	
+	glm::vec3 color;
 	
 	// Speed of the planet's spin on its axis + its direction
 	float spinVelocity = 0.0f;

@@ -7,6 +7,8 @@
 #include "Camera.hpp"
 #include "ShaderPool.hpp"
 #include "Planet.hpp"
+#include "PointLightSource.hpp"
+#include "DirectionalLightSource.hpp"
 
 class Scene
 {
@@ -19,6 +21,9 @@ private:
 	unsigned int maxPlanetsCount;
 	unsigned int planetsCount = 0;
 	Planet** planets;
+	
+	DirectionalLightSource* dirLightSource;
+	PointLightSource* pointLightSource;
 	
 	glm::mat4 projection;
 public:

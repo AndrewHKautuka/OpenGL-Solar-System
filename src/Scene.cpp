@@ -3,6 +3,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include "FreeCamera.hpp"
+#include "DirectionalLightSource.hpp"
+#include "PointLightSource.hpp"
 
 Scene::Scene(InputHandler* pInput)
 {
@@ -10,10 +12,13 @@ Scene::Scene(InputHandler* pInput)
 	
 	shaderPool.AddShader(new Shader("shaders/planet.vs", VERTEX), "planet.vs");
 	shaderPool.AddShader(new Shader("shaders/planet.fs", FRAGMENT), "planet.fs");
+	shaderPool.AddShader(new Shader("shaders/lightSource.vs", VERTEX), "lightSource.vs");
+	shaderPool.AddShader(new Shader("shaders/lightSource.fs", FRAGMENT), "lightSource.fs");
 	shaderPool.AddShader(new Shader("shaders/moon.fs", FRAGMENT), "moon.fs");
 	
 	shaderPool.AddShaderProgram(new ShaderProgram(*shaderPool.RetrieveShader("planet.vs"), *shaderPool.RetrieveShader("planet.fs")), "planet");
 	shaderPool.AddShaderProgram(new ShaderProgram(*shaderPool.RetrieveShader("planet.vs"), *shaderPool.RetrieveShader("moon.fs")), "moon");
+	shaderPool.AddShaderProgram(new ShaderProgram(*shaderPool.RetrieveShader("lightSource.vs"), *shaderPool.RetrieveShader("lightSource.fs")), "lightSource");
 	
 	shaderPool.ClearShaders();
 	
@@ -75,31 +80,31 @@ void Scene::Initialize(float pAspectRatio)
 	float oMoon = 0.035f * spinSpeedMultiplier;
 	float oMars = 0.00145f * orbitSpeedMultiplier;
 	
-	Planet sun(rSun, 18, sunTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet sun(rSun, 36, sunTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
 	sun.SetSpinVelocity(sSun);
 	unsigned int sunID = AddPlanet(sun);
 	
-	Planet mercury(rMercury, 18, mercuryTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet mercury(rMercury, 36, mercuryTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
 	mercury.SetSpinVelocity(sMercury);
 	mercury.SetOrbit(RetrievePlanet(sunID), dMercury, oMercury, 0.0f);
 	AddPlanet(mercury);
 	
-	Planet venus(rVenus, 18, venusTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet venus(rVenus, 36, venusTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
 	venus.SetSpinVelocity(sVenus);
 	venus.SetOrbit(RetrievePlanet(sunID), dVenus, oVenus, 0.0f);
 	AddPlanet(venus);
 	
-	Planet earth(rEarth, 18, earthTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet earth(rEarth, 36, earthTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
 	earth.SetSpinVelocity(sEarth);
 	earth.SetOrbit(RetrievePlanet(sunID), dEarth, oEarth, 0.0f);
 	unsigned int earthID = AddPlanet(earth);
 	
-	Planet moon(rMoon, 18, moonTexture, moonShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet moon(rMoon, 36, moonTexture, moonShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
 	moon.SetSpinVelocity(sMoon);
 	moon.SetOrbit(RetrievePlanet(earthID), dMoon, oMoon, 0.0f);
 	unsigned int moonID = AddPlanet(moon);
 	
-	Planet mars(rMars, 18, marsTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	Planet mars(rMars, 36, marsTexture, planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
 	mars.SetSpinVelocity(sMars);
 	mars.SetOrbit(RetrievePlanet(sunID), dMars, oMars, 0.0f);
 	AddPlanet(mars);
@@ -137,6 +142,9 @@ void Scene::Initialize(float pAspectRatio)
 	
 	shaderPool.RetrieveShaderProgram("planet")->use();
 	shaderPool.RetrieveShaderProgram("planet")->setMat4("projection", projection);
+	
+	dirLightSource = new DirectionalLightSource(shaderPool.RetrieveShaderProgram("lightSource"), glm::vec3(1.0f, 0.75f, 0.25f), glm::vec3(0.0f, 0.0f, -1.0f));
+	pointLightSource = new PointLightSource(0.1f, glm::vec3(0.0f, 20.0f, 0.0f), 18, shaderPool.RetrieveShaderProgram("lightSource"), glm::vec3(0.1f, 0.25f, 1.0f));
 }
 
 void Scene::SetAspectRatio(float pAspectRatio)
@@ -166,6 +174,8 @@ void Scene::Update()
 {
 	input->Update();
 	
+	dirLightSource->Update();
+	pointLightSource->Update();
 	for (unsigned int i = 0; i < planetsCount; i++)
 	{
 		planets[i]->Update();
@@ -176,8 +186,11 @@ void Scene::Render()
 {
 	glm::mat4 view = camera->GetViewMatrix();
 	
+	dirLightSource->Draw(&projection, &view);
+	pointLightSource->Draw(&projection, &view);
+	
 	for (unsigned int i = 0; i < planetsCount; i++)
 	{
-		planets[i]->Draw(&projection, &view);
+		planets[i]->Draw(&projection, camera, pointLightSource, dirLightSource);
 	}
 }

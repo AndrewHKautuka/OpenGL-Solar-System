@@ -5,7 +5,7 @@
 
 #include "gLErrorHandle.hpp"
 
-Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : texture(pTexture), mesh(Sphere(pRadius, pStackCount * 2, pStackCount, true, 2))
+Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : texture(pTexture), mesh(pRadius, pStackCount * 2, pStackCount, true, 2)
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -45,6 +45,8 @@ Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, Shader
 	forward = pForward;
 	right = glm::normalize(glm::cross(forward, pWorldUp));
 	up = glm::cross(right, forward);
+	
+	color = glm::vec3(1.0f, 1.0f, 1.0f);
 }
 
 Planet::~Planet()
@@ -69,11 +71,15 @@ void Planet::Update()
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(spinAngle), up);
 }
 
-void Planet::Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const
+void Planet::Draw(glm::mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource) const
 {
 	shader->use();
+	shader->setVec3("objectColor", color);
+	pointLightSource->ApplyToShader(shader);
+	dirLightSource->ApplyToShader(shader);
+	shader->setVec3("viewPos", camera->GetPosition());
 	shader->setMat4("projection", *projectionMatrix);
-	shader->setMat4("view", *viewMatrix);
+	shader->setMat4("view", camera->GetViewMatrix());
 	shader->setMat4("model", modelMatrix);
 	
 	glActiveTexture(GL_TEXTURE0);
