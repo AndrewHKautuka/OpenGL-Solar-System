@@ -65,9 +65,9 @@ void Scene::Initialize(float pAspectRatio)
 	
 	// (Model) spin velocities
 	float spinSpeedMultiplier = 10.0f;
-	float sSun = 0.04f * spinSpeedMultiplier;
-	float sMercury = 0.02f * spinSpeedMultiplier;
-	float sVenus = 0.004f * spinSpeedMultiplier;
+	float sSun = 0.4f * spinSpeedMultiplier;
+	float sMercury = 0.2f * spinSpeedMultiplier;
+	float sVenus = 0.04f * spinSpeedMultiplier;
 	float sEarth = 1.00f * spinSpeedMultiplier;
 	float sMoon = 0.035f * spinSpeedMultiplier;
 	float sMars = 0.95f * spinSpeedMultiplier;
