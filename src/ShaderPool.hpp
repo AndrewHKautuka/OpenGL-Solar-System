@@ -12,14 +12,14 @@ public:
 	~ShaderPool();
 	
 	bool AddShader(Shader* shader, std::string name);
-	bool ContainsShader(std::string name);
-	Shader* RetrieveShader(std::string name);
+	bool ContainsShader(std::string name) const;
+	Shader* RetrieveShader(std::string name) const;
 	void DeleteShader(std::string name);
 	void ClearShaders();
 	
 	bool AddShaderProgram(ShaderProgram* program, std::string name);
-	bool ContainsShaderProgram(std::string name);
-	ShaderProgram* RetrieveShaderProgram(std::string name);
+	bool ContainsShaderProgram(std::string name) const;
+	ShaderProgram* RetrieveShaderProgram(std::string name) const;
 	void DeleteShaderProgram(std::string name);
 	void ClearShaderPrograms();
 private:

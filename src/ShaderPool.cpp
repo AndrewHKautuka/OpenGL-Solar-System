@@ -14,12 +14,12 @@ bool ShaderPool::AddShader(Shader* shader, std::string name)
 	return shaders.insert(std::pair(name, shader)).second;
 }
 
-bool ShaderPool::ContainsShader(std::string name)
+bool ShaderPool::ContainsShader(std::string name) const
 {
 	return shaders.count(name) != 0;
 }
 
-Shader* ShaderPool::RetrieveShader(std::string name)
+Shader* ShaderPool::RetrieveShader(std::string name) const
 {
 	if (!ContainsShader(name))
 	{
@@ -58,12 +58,12 @@ bool ShaderPool::AddShaderProgram(ShaderProgram* program, std::string name)
 	return programs.insert(std::pair(name, program)).second;
 }
 
-bool ShaderPool::ContainsShaderProgram(std::string name)
+bool ShaderPool::ContainsShaderProgram(std::string name) const
 {
 	return programs.count(name) != 0;
 }
 
-ShaderProgram* ShaderPool::RetrieveShaderProgram(std::string name)
+ShaderProgram* ShaderPool::RetrieveShaderProgram(std::string name) const
 {
 	if (!ContainsShaderProgram(name))
 	{
