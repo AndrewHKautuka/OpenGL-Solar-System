@@ -5,6 +5,9 @@
 
 #include "gLErrorHandle.hpp"
 
+const float Planet::SPIN_SPEED_MULTIPLIER = 10.0f;
+const float Planet::ORBIT_SPEED_MULTIPLIER = 100.0f;
+
 Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : texture(pTexture), mesh(pRadius, pStackCount * 2, pStackCount, true, 2)
 {
 	glGenVertexArrays(1, &VAO);
@@ -56,8 +59,8 @@ Planet::~Planet()
 
 void Planet::Update()
 {
-	spinAngle += fmod(spinVelocity, 360.0f);
-	orbitAngle += fmod(orbitVelocity, 360.0f);
+	spinAngle += fmod(spinVelocity * SPIN_SPEED_MULTIPLIER, 360.0f);
+	orbitAngle += fmod(orbitVelocity * ORBIT_SPEED_MULTIPLIER, 360.0f);
 	
 	modelMatrix = glm::mat4(1.0f);
 	
