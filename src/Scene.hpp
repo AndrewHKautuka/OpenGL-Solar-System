@@ -6,7 +6,7 @@
 #include "InputHandler.hpp"
 #include "Camera.hpp"
 #include "ShaderPool.hpp"
-#include "Planet.hpp"
+#include "SolarSystem.hpp"
 #include "PointLightSource.hpp"
 #include "DirectionalLightSource.hpp"
 
@@ -18,9 +18,7 @@ private:
 	Camera* camera;
 	InputHandler* input;
 	
-	unsigned int maxPlanetsCount;
-	unsigned int planetsCount = 0;
-	Planet** planets;
+	SolarSystem solarSystem;
 	
 	DirectionalLightSource* dirLightSource;
 	PointLightSource* pointLightSource;
@@ -29,9 +27,6 @@ private:
 public:
 	Scene(InputHandler* pInput);
 	~Scene();
-	
-	unsigned int AddPlanet(const Planet& planet);
-	Planet* RetrievePlanet(unsigned int id);
 	
 	void Initialize(float pAspectRatio);
 	void SetAspectRatio(float pAspectRatio);
