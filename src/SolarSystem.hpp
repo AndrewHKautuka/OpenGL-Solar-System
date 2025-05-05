@@ -3,6 +3,12 @@
 #include <glm/glm.hpp>
 
 #include "Planet.hpp"
+#include "Sun.hpp"
+#include "Mercury.hpp"
+#include "Venus.hpp"
+#include "Earth.hpp"
+#include "Moon.hpp"
+#include "Mars.hpp"
 #include "Camera.hpp"
 #include "PointLightSource.hpp"
 #include "DirectionalLightSource.hpp"
@@ -11,12 +17,12 @@
 class SolarSystem
 {
 private:
-	Planet* sun;
-	Planet* mercury;
-	Planet* venus;
-	Planet* earth;
-	Planet* moon;
-	Planet* mars;
+	Sun* sun;
+	Mercury* mercury;
+	Venus* venus;
+	Earth* earth;
+	Moon* moon;
+	Mars* mars;
 public:
 	SolarSystem();
 	~SolarSystem();
@@ -26,10 +32,10 @@ public:
 	void Update();
 	void Render(glm::mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource);
 	
-	Planet* GetSun() const;
-	Planet* GetMercury() const;
-	Planet* GetVenus() const;
-	Planet* GetEarth() const;
-	Planet* GetMoon() const;
-	Planet* GetMars() const;
+	Sun* GetSun() const;
+	Mercury* GetMercury() const;
+	Venus* GetVenus() const;
+	Earth* GetEarth() const;
+	Moon* GetMoon() const;
+	Mars* GetMars() const;
 };

@@ -22,7 +22,7 @@ public:
 	void Update();
 	void Draw(glm::mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource) const;
 	
-	void SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitVelocity, float pOrbitAngle);
+	void SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitAngle);
 	float GetOrbitVelocity() const;
 	void SetOrbitVelocity(float pOrbitVelocity);
 	

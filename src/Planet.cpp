@@ -93,11 +93,10 @@ void Planet::Draw(glm::mat4* projectionMatrix, Camera* camera, PointLightSource*
 	glBindVertexArray(0);
 }
 
-void Planet::SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitVelocity, float pOrbitAngle)
+void Planet::SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitAngle)
 {
 	host = pHost;
 	orbitRadius = pOrbitRadius;
-	orbitVelocity = pOrbitVelocity;
 	orbitAngle = pOrbitAngle;
 }
 
