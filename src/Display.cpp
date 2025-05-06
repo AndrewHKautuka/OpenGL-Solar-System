@@ -11,7 +11,8 @@ Display::Display(unsigned int pWidth, unsigned int pHeight, const char* pTitle) 
 Display::Display(GLFWmonitor* pMonitor, unsigned int pWidth, unsigned int pHeight, const char* pTitle) : mWidth(pWidth), mHeight(pHeight), mTitle(pTitle), mWindow(glfwCreateWindow(mWidth, mHeight, mTitle, pMonitor, NULL))
 {
 	scene = nullptr;
-	input = new InputHandler(mWindow);
+	input = new InputListener(mWindow);
+	inputBinding = new InputBinding();
 }
 
 Display::~Display()
@@ -20,6 +21,11 @@ Display::~Display()
 	{
 		delete scene;
 		scene = nullptr;
+	}
+	if (inputBinding != nullptr)
+	{
+		delete inputBinding;
+		inputBinding = nullptr;
 	}
 	input->Unbind();
 	
@@ -32,8 +38,9 @@ void Display::Initialize()
 	GLCall(glViewport(0, 0, mWidth, mHeight));
 	glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
 	
+	input->SetInputBinding(inputBinding);
 	input->Bind();
-	input->AddKeyCommand(GLFW_KEY_ESCAPE, RELEASED, GLFW_MOD_NONE, [=](){ glfwSetWindowShouldClose(mWindow, true); });
+	inputBinding->AddKeyCommand(GLFW_KEY_ESCAPE, RELEASED, GLFW_MOD_NONE, [=](){ glfwSetWindowShouldClose(mWindow, true); });
 	scene = new Scene(input);
 }
 

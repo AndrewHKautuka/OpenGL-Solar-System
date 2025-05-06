@@ -4,7 +4,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Timer.h"
-#include "InputHandler.hpp"
+#include "InputListener.hpp"
 #include "Scene.hpp"
 
 class Display
@@ -28,7 +28,8 @@ public:
 	void Run();
 private:
 	Scene* scene;
-	InputHandler* input;
+	InputListener* input;
+	InputBinding* inputBinding;
 	
 	Timer timer;
 	

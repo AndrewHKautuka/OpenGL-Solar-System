@@ -5,7 +5,7 @@
 #include "DirectionalLightSource.hpp"
 #include "PointLightSource.hpp"
 
-Scene::Scene(InputHandler* pInput)
+Scene::Scene(InputListener* pInput)
 {
 	input = pInput;
 	
@@ -38,34 +38,36 @@ void Scene::Initialize(float pAspectRatio)
 	
 	solarSystem.Initialize(&shaderPool, worldUp);
 	
-	input->AddKeyStateAction(GLFW_KEY_W, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f,  *moveSpeed)); });
-	input->AddKeyStateAction(GLFW_KEY_S, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f, -*moveSpeed)); });
-	input->AddKeyStateAction(GLFW_KEY_A, PRESSED, [=](){ camera->Move(glm::vec3(-*moveSpeed, 0.0f,  0.0f)); });
-	input->AddKeyStateAction(GLFW_KEY_D, PRESSED, [=](){ camera->Move(glm::vec3( *moveSpeed, 0.0f,  0.0f)); });
+	InputBinding* binding = new InputBinding(*input->GetInputBinding());
+	binding->AddKeyStateAction(GLFW_KEY_W, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f,  *moveSpeed)); });
+	binding->AddKeyStateAction(GLFW_KEY_S, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f, -*moveSpeed)); });
+	binding->AddKeyStateAction(GLFW_KEY_A, PRESSED, [=](){ camera->Move(glm::vec3(-*moveSpeed, 0.0f,  0.0f)); });
+	binding->AddKeyStateAction(GLFW_KEY_D, PRESSED, [=](){ camera->Move(glm::vec3( *moveSpeed, 0.0f,  0.0f)); });
 	
-	input->AddKeyCommand(GLFW_KEY_LEFT, RELEASED, GLFW_MOD_NONE, [=](){
+	binding->AddKeyCommand(GLFW_KEY_LEFT, RELEASED, GLFW_MOD_NONE, [=](){
 		Planet* moon = solarSystem.GetMoon();
 		moon->SetOrbitVelocity(moon->GetOrbitVelocity() + 0.005f);
 	});
-	input->AddKeyCommand(GLFW_KEY_RIGHT, RELEASED, GLFW_MOD_NONE, [=](){
+	binding->AddKeyCommand(GLFW_KEY_RIGHT, RELEASED, GLFW_MOD_NONE, [=](){
 		Planet* moon = solarSystem.GetMoon();
 		moon->SetOrbitVelocity(moon->GetOrbitVelocity() - 0.005f);
 	});
-	input->AddKeyCommand(GLFW_KEY_UP, RELEASED, GLFW_MOD_NONE, [=](){
+	binding->AddKeyCommand(GLFW_KEY_UP, RELEASED, GLFW_MOD_NONE, [=](){
 		Planet* sun = solarSystem.GetSun();
 		sun->SetSpinVelocity(sun->GetSpinVelocity() + 0.05f);
 	});
-	input->AddKeyCommand(GLFW_KEY_DOWN, RELEASED, GLFW_MOD_NONE, [=](){
+	binding->AddKeyCommand(GLFW_KEY_DOWN, RELEASED, GLFW_MOD_NONE, [=](){
 		Planet* sun = solarSystem.GetSun();
 		sun->SetSpinVelocity(sun->GetSpinVelocity() - 0.05f);
 	});
 	
 	const float mouseSensitivity = 0.1f;
 	
-	input->SetMouseMoveCommand([=](double xPos, double yPos){
-		auto lastPos = input->GetLastMousePosition();
+	binding->SetMouseMoveCommand([=](double xPos, double yPos){
+		auto lastPos = binding->GetLastMousePosition();
 		camera->AddDirectionOffest(mouseSensitivity * (xPos - lastPos.first), mouseSensitivity * (yPos - lastPos.second));
 	});
+	input->SetInputBinding(binding);
 	
 	SetAspectRatio(pAspectRatio);
 	

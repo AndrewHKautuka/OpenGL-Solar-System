@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 
-#include "InputHandler.hpp"
+#include "InputListener.hpp"
 #include "Camera.hpp"
 #include "ShaderPool.hpp"
 #include "SolarSystem.hpp"
@@ -16,7 +16,7 @@ private:
 	float aspectRatio;
 	ShaderPool shaderPool;
 	Camera* camera;
-	InputHandler* input;
+	InputListener* input;
 	
 	SolarSystem solarSystem;
 	
@@ -25,7 +25,7 @@ private:
 	
 	glm::mat4 projection;
 public:
-	Scene(InputHandler* pInput);
+	Scene(InputListener* pInput);
 	~Scene();
 	
 	void Initialize(float pAspectRatio);
