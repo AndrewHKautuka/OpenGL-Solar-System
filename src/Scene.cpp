@@ -2,7 +2,6 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "FreeCamera.hpp"
 #include "DirectionalLightSource.hpp"
 #include "PointLightSource.hpp"
 
@@ -35,7 +34,7 @@ float* moveSpeed = new float(0.1f);
 void Scene::Initialize(float pAspectRatio)
 {
 	const glm::vec3 worldUp(0.0f, 1.0f, 0.0f);
-	camera = new FreeCamera(new glm::vec3(0.0f, 0.0f, -10.0f), worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	camera = new Camera(glm::vec3(0.0f, 0.0f, -10.0f), worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
 	
 	solarSystem.Initialize(&shaderPool, worldUp);
 	
