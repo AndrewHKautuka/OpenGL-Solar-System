@@ -2,13 +2,14 @@
 
 #include <iostream>
 
-Camera::Camera(glm::vec3 pPosition, glm::vec3 pWorldUp, glm::vec3 pForward, float pMinPitch, float pMaxPitch) : minPitch(glm::max(pMinPitch, MIN_PITCH)), maxPitch(glm::min(pMaxPitch, MAX_PITCH)), position(pPosition), initialUp(pWorldUp), forward(pForward), target(position + forward), right(glm::normalize(glm::cross(forward, initialUp))), up(glm::cross(right, forward))
+Camera::Camera(glm::vec3 pPosition, glm::vec3 pWorldUp, glm::vec3 pForward, float pMinPitch, float pMaxPitch) : minPitch(glm::max(pMinPitch, MIN_PITCH)), maxPitch(glm::min(pMaxPitch, MAX_PITCH)), position(pPosition), initialUp(pWorldUp), forward(pForward), right(glm::normalize(glm::cross(forward, initialUp))), up(glm::cross(right, forward))
 {
 	if (minPitch > maxPitch)
 	{
 		std::cout << "Minimum pitch is greater than maximum pitch (" << minPitch << " > " << maxPitch << ")\n";
 		std::cout << "Undefined camera behaviour will occur" << std::endl;
 	}
+	target = position + forward;
 }
 
 Camera::Camera(glm::vec3 pPosition, glm::vec3 pWorldUp, glm::vec3 pForward) : Camera(pPosition, pWorldUp, pForward, MIN_PITCH, MAX_PITCH)
