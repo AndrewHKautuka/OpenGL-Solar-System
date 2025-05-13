@@ -9,11 +9,11 @@ Scene::Scene(InputListener* pInput)
 {
 	input = pInput;
 	
-	shaderPool.AddShader(new Shader("shaders/planet.vs", VERTEX), "planet.vs");
-	shaderPool.AddShader(new Shader("shaders/planet.fs", FRAGMENT), "planet.fs");
-	shaderPool.AddShader(new Shader("shaders/lightSource.vs", VERTEX), "lightSource.vs");
-	shaderPool.AddShader(new Shader("shaders/lightSource.fs", FRAGMENT), "lightSource.fs");
-	shaderPool.AddShader(new Shader("shaders/moon.fs", FRAGMENT), "moon.fs");
+	shaderPool.AddShader(new Shader("res/shaders/planet.vs", VERTEX), "planet.vs");
+	shaderPool.AddShader(new Shader("res/shaders/planet.fs", FRAGMENT), "planet.fs");
+	shaderPool.AddShader(new Shader("res/shaders/lightSource.vs", VERTEX), "lightSource.vs");
+	shaderPool.AddShader(new Shader("res/shaders/lightSource.fs", FRAGMENT), "lightSource.fs");
+	shaderPool.AddShader(new Shader("res/shaders/moon.fs", FRAGMENT), "moon.fs");
 	
 	shaderPool.AddShaderProgram(new ShaderProgram(*shaderPool.RetrieveShader("planet.vs"), *shaderPool.RetrieveShader("planet.fs")), "planet");
 	shaderPool.AddShaderProgram(new ShaderProgram(*shaderPool.RetrieveShader("planet.vs"), *shaderPool.RetrieveShader("moon.fs")), "moon");
