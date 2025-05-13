@@ -6,7 +6,7 @@ const float Mercury::INITIAL_SPIN_VELOCITY = 0.0171f;
 // Derived from real-life orbit period in days
 const float Mercury::INITIAL_ORBIT_VELOCITY = 0.0114f;
 const unsigned int Mercury::STACK_COUNT = 36;
-const char* Mercury::TEXTURE_PATH = "textures/mercurymap.jpg";
+const char* Mercury::TEXTURE_PATH = "res/textures/mercurymap.jpg";
 
 Mercury::Mercury(ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : Planet(RADIUS, STACK_COUNT, Texture(TEXTURE_PATH), pShader, pWorldUp, pForward)
 {
