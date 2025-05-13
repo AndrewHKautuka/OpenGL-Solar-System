@@ -38,36 +38,36 @@ void Scene::Initialize(float pAspectRatio)
 	
 	solarSystem.Initialize(&shaderPool, worldUp);
 	
-	InputBinding* binding = new InputBinding(*input->GetInputBinding());
-	binding->AddKeyStateAction(GLFW_KEY_W, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f,  *moveSpeed)); });
-	binding->AddKeyStateAction(GLFW_KEY_S, PRESSED, [=](){ camera->Move(glm::vec3( 0.0f, 0.0f, -*moveSpeed)); });
-	binding->AddKeyStateAction(GLFW_KEY_A, PRESSED, [=](){ camera->Move(glm::vec3(-*moveSpeed, 0.0f,  0.0f)); });
-	binding->AddKeyStateAction(GLFW_KEY_D, PRESSED, [=](){ camera->Move(glm::vec3( *moveSpeed, 0.0f,  0.0f)); });
+	InputBinding& binding = input->GetInputBinding();
 	
-	binding->AddKeyCommand(GLFW_KEY_LEFT, RELEASED, GLFW_MOD_NONE, [=](){
+	binding.AddKeyStateAction("camera.move.forward", [=](){ camera->Move(glm::vec3( 0.0f, 0.0f,  *moveSpeed)); });
+	binding.AddKeyStateAction("camera.move.backward", [=](){ camera->Move(glm::vec3( 0.0f, 0.0f, -*moveSpeed)); });
+	binding.AddKeyStateAction("camera.move.left", [=](){ camera->Move(glm::vec3(-*moveSpeed, 0.0f,  0.0f)); });
+	binding.AddKeyStateAction("camera.move.right", [=](){ camera->Move(glm::vec3( *moveSpeed, 0.0f,  0.0f)); });
+	
+	binding.AddKeyCommand("moon.orbit.speed_up", [=](){
 		Planet* moon = solarSystem.GetMoon();
 		moon->SetOrbitVelocity(moon->GetOrbitVelocity() + 0.005f);
 	});
-	binding->AddKeyCommand(GLFW_KEY_RIGHT, RELEASED, GLFW_MOD_NONE, [=](){
+	binding.AddKeyCommand("moon.orbit.speed_down", [=](){
 		Planet* moon = solarSystem.GetMoon();
 		moon->SetOrbitVelocity(moon->GetOrbitVelocity() - 0.005f);
 	});
-	binding->AddKeyCommand(GLFW_KEY_UP, RELEASED, GLFW_MOD_NONE, [=](){
+	binding.AddKeyCommand("sun.spin.speed_up", [=](){
 		Planet* sun = solarSystem.GetSun();
 		sun->SetSpinVelocity(sun->GetSpinVelocity() + 0.05f);
 	});
-	binding->AddKeyCommand(GLFW_KEY_DOWN, RELEASED, GLFW_MOD_NONE, [=](){
+	binding.AddKeyCommand("sun.spin.speed_down", [=](){
 		Planet* sun = solarSystem.GetSun();
 		sun->SetSpinVelocity(sun->GetSpinVelocity() - 0.05f);
 	});
 	
 	const float mouseSensitivity = 0.1f;
 	
-	binding->SetMouseMoveCommand([=](double xPos, double yPos){
-		auto lastPos = binding->GetLastMousePosition();
+	binding.SetMouseMoveCommand([=, &binding](double xPos, double yPos){
+		auto lastPos = binding.GetLastMousePosition();
 		camera->AddDirectionOffest(mouseSensitivity * (xPos - lastPos.first), mouseSensitivity * (yPos - lastPos.second));
 	});
-	input->SetInputBinding(binding);
 	
 	SetAspectRatio(pAspectRatio);
 	

@@ -29,7 +29,7 @@ public:
 private:
 	Scene* scene;
 	InputListener* input;
-	InputBinding* inputBinding;
+	InputMapping* inputMapping;
 	
 	Timer timer;
 	

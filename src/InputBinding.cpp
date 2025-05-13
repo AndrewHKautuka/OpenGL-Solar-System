@@ -2,6 +2,8 @@
 
 InputBinding::InputBinding()
 {
+	inputMapping = nullptr;
+	
 	keysPressed = new bool[GLFW_KEY_LAST + 1];
 	for (unsigned int i = 0; i < GLFW_KEY_LAST + 1; i++)
 	{
@@ -21,14 +23,14 @@ void InputBinding::Update()
 	{
 		if (keysPressed[i])
 		{
-			auto current = keyStateActionMap.find(std::make_tuple(i, PRESSED));
+			auto current = keyStateActionMap.find(inputMapping->ResolveKeyStateAction(i, PRESSED));
 			
 			if (current != keyStateActionMap.end())
 			{
 				current->second();
 			}
 		} else {
-			auto current = keyStateActionMap.find(std::make_tuple(i, RELEASED));
+			auto current = keyStateActionMap.find(inputMapping->ResolveKeyStateAction(i, RELEASED));
 			
 			if (current != keyStateActionMap.end())
 			{
@@ -58,19 +60,19 @@ KeyState InputBinding::GetKeyState(unsigned int key)
 	return keysPressed[key] ? PRESSED : RELEASED;
 }
 
-void InputBinding::AddKeyStateAction(unsigned int key, KeyState state, std::function<void()> action)
+void InputBinding::AddKeyStateAction(std::string actionName, std::function<void()> action)
 {
-	keyStateActionMap.insert(std::make_pair(std::make_tuple(key, state), action));
+	keyStateActionMap.insert(std::make_pair(actionName, action));
 }
 
-void InputBinding::RemoveKeyStateAction(unsigned int key, KeyState state)
+void InputBinding::RemoveKeyStateAction(std::string actionName)
 {
-	keyStateActionMap.erase(std::make_tuple(key, state));
+	keyStateActionMap.erase(actionName);
 }
 
-void InputBinding::ChangeKeyStateAction(unsigned int key, KeyState state, std::function<void()> action)
+void InputBinding::ChangeKeyStateAction(std::string actionName, std::function<void()> action)
 {
-	auto current = keyStateActionMap.find(std::make_tuple(key, state));
+	auto current = keyStateActionMap.find(actionName);
 	
 	if (current != keyStateActionMap.end())
 	{
@@ -78,19 +80,19 @@ void InputBinding::ChangeKeyStateAction(unsigned int key, KeyState state, std::f
 	}
 }
 
-void InputBinding::AddKeyCommand(unsigned int key, unsigned int action, unsigned int modifiers, std::function<void()> command)
+void InputBinding::AddKeyCommand(std::string commandName, std::function<void()> command)
 {
-	keyCommandMap.insert(std::make_pair(std::make_tuple(key, action, modifiers), command));
+	keyCommandMap.insert(std::make_pair(commandName, command));
 }
 
-void InputBinding::RemoveKeyCommand(unsigned int key, unsigned int action, unsigned int modifiers)
+void InputBinding::RemoveKeyCommand(std::string commandName)
 {
-	keyCommandMap.erase(std::make_tuple(key, action, modifiers));
+	keyCommandMap.erase(commandName);
 }
 
-void InputBinding::ChangeKeyCommand(unsigned int key, unsigned int action, unsigned int modifiers, std::function<void()> command)
+void InputBinding::ChangeKeyCommand(std::string commandName, std::function<void()> command)
 {
-	auto current = keyCommandMap.find(std::make_tuple(key, action, modifiers));
+	auto current = keyCommandMap.find(commandName);
 	
 	if (current != keyCommandMap.end())
 	{
@@ -128,6 +130,16 @@ std::pair<double, double> InputBinding::GetLastMouseScroll()
 	return lastMouseScroll;
 }
 
+void InputBinding::SetInputMapping(InputMapping* pInputMapping)
+{
+	if (pInputMapping == nullptr)
+	{
+		return;
+	}
+	
+	inputMapping = pInputMapping;
+}
+
 void InputBinding::HandleKeyInput(int key, int action, int modifiers)
 {
 	if (action == GLFW_PRESS)
@@ -140,7 +152,8 @@ void InputBinding::HandleKeyInput(int key, int action, int modifiers)
 	}
 	
 	// Get iterator of key
-	auto iterator = keyCommandMap.find(std::make_tuple(key, action, modifiers));
+	std::string name = inputMapping->ResolveKeyCommand(key, action, modifiers);
+	auto iterator = keyCommandMap.find(name);
 	// If not found (i.e. no mapping), then return (we are done)
 	if (iterator == keyCommandMap.end())
 	{

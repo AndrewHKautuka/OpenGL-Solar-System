@@ -1,13 +1,15 @@
 // Reference: https://www.glfw.org/docs/3.3/input_guide.html
 #pragma once
 
+#include "InputMapping.hpp"
 #include "InputBinding.hpp"
 
 class InputListener
 {
 private:
 	GLFWwindow* window;
-	InputBinding* inputBinding;
+	InputBinding inputBinding;
+	InputMapping* inputMapping;
 	bool firstMouseMoveEvent = true, firstMouseScrollEvent = true;
 public:
 	InputListener(GLFWwindow* pWindow);
@@ -18,8 +20,10 @@ public:
 	
 	void Update();
 	
-	void SetInputBinding(InputBinding* pInputBinding);
-	InputBinding* GetInputBinding();
+	InputBinding& GetInputBinding();
+	
+	void SetInputMapping(InputMapping* pInputMapping);
+	InputMapping* GetInputMapping();
 private:
 	static void key_callback(GLFWwindow* window, int key, int scancode, int action, int modifiers);
 	static void mouse_move_callback(GLFWwindow* window, double xPos, double yPos);

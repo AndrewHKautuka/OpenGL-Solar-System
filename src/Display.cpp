@@ -12,7 +12,7 @@ Display::Display(GLFWmonitor* pMonitor, unsigned int pWidth, unsigned int pHeigh
 {
 	scene = nullptr;
 	input = new InputListener(mWindow);
-	inputBinding = new InputBinding();
+	inputMapping = InputMapping::GetNewDefaultInputMapping();
 }
 
 Display::~Display()
@@ -22,10 +22,10 @@ Display::~Display()
 		delete scene;
 		scene = nullptr;
 	}
-	if (inputBinding != nullptr)
+	if (inputMapping != nullptr)
 	{
-		delete inputBinding;
-		inputBinding = nullptr;
+		delete inputMapping;
+		inputMapping = nullptr;
 	}
 	input->Unbind();
 	
@@ -38,9 +38,9 @@ void Display::Initialize()
 	GLCall(glViewport(0, 0, mWidth, mHeight));
 	glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
 	
-	input->SetInputBinding(inputBinding);
+	input->SetInputMapping(inputMapping);
 	input->Bind();
-	inputBinding->AddKeyCommand(GLFW_KEY_ESCAPE, RELEASED, GLFW_MOD_NONE, [=](){ glfwSetWindowShouldClose(mWindow, true); });
+	input->GetInputBinding().AddKeyCommand("window.close", [=](){ glfwSetWindowShouldClose(mWindow, true); });
 	scene = new Scene(input);
 }
 
