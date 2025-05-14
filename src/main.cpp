@@ -3,8 +3,7 @@
 #include <iostream>
 
 #include "Display.hpp"
-
-const float WIDTH = 800, HEIGHT = 600;
+#include "DisplayDataFileUtil.hpp"
 
 int main()
 {
@@ -21,9 +20,15 @@ int main()
 	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
 	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
 	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+	
+	DisplayData* displayData = ReadDisplayDataFromFile("window.mod", mode);
 	
 	// Window Creation
-	Display display(WIDTH, HEIGHT, "Solar System");
+	Display display(monitor, *displayData, "Solar System");
+	
+	delete displayData;
+	displayData = nullptr;
 	
 	if (display.mWindow == NULL)
 	{

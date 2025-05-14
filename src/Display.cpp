@@ -1,18 +1,24 @@
 #include "Display.hpp"
 
+#include <iostream>
 #include "gLErrorHandle.hpp"
 
 const double Display::UPDATES_PER_SEC = 60.0;
 const double Display::TARGET_DELTA_TIME = 1000000.0 / Display::UPDATES_PER_SEC;
 
-Display::Display(unsigned int pWidth, unsigned int pHeight, const char* pTitle) : Display(NULL, pWidth, pHeight, pTitle)
+Display::Display(DisplayData pData, const char* pTitle) : Display(NULL, data, pTitle)
 {}
 
-Display::Display(GLFWmonitor* pMonitor, unsigned int pWidth, unsigned int pHeight, const char* pTitle) : mWidth(pWidth), mHeight(pHeight), mTitle(pTitle), mWindow(glfwCreateWindow(mWidth, mHeight, mTitle, pMonitor, NULL))
+Display::Display(GLFWmonitor* pMonitor, DisplayData pData, const char* pTitle) : data(pData), monitor(pMonitor), mTitle(pTitle), mWindow(glfwCreateWindow(data.GetWidth(), data.GetHeight(), mTitle, data.IsFullscreen() ? pMonitor : NULL, NULL))
 {
 	scene = nullptr;
 	input = new InputListener(mWindow);
 	inputMapping = ReadInputMappingFromFile("controls.mod");
+	
+	data.SetOnFullscreenChange([&](){
+		const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+		glfwSetWindowMonitor(mWindow, (data.IsFullscreen() ? monitor : NULL), (mode->width - data.GetWidth()) / 2, (mode->height - data.GetHeight()) / 2, data.GetWidth(), data.GetHeight(), mode->refreshRate);
+	});
 }
 
 Display::~Display()
@@ -35,13 +41,17 @@ Display::~Display()
 
 void Display::Initialize()
 {
-	GLCall(glViewport(0, 0, mWidth, mHeight));
+	GLCall(glViewport(0, 0, data.GetWidth(), data.GetHeight()));
+	// Window is not resizable so the callback will (probably) never be invoked through here
+	// but is left alone in case this interpretation is not correct
 	glfwSetFramebufferSizeCallback(mWindow, framebuffer_size_callback);
 	
 	input->SetInputMapping(inputMapping);
 	input->Bind();
 	input->GetInputBinding().AddKeyCommand("window.close", [=](){ glfwSetWindowShouldClose(mWindow, true); });
 	input->GetInputBinding().AddKeyCommand("controls.save", [=](){ SaveInputMappingToFile("controls.mod", input->GetInputMapping()); });
+	input->GetInputBinding().AddKeyCommand("window.fullscreen", [=](){ data.ToggleFullscreen(); });
+	input->GetInputBinding().AddKeyCommand("window.save_settings", [=](){ SaveDisplayDataToFile("window.mod", &data); });
 	
 	scene = new Scene(input);
 }
@@ -53,7 +63,7 @@ void Display::RequestFocus()
 
 void Display::Run()
 {
-	scene->Initialize((float) mWidth / (float) mHeight);
+	scene->Initialize(data.GetAspectRatio());
 	
 	glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
