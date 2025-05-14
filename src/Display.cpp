@@ -12,7 +12,7 @@ Display::Display(GLFWmonitor* pMonitor, unsigned int pWidth, unsigned int pHeigh
 {
 	scene = nullptr;
 	input = new InputListener(mWindow);
-	inputMapping = InputMapping::GetNewDefaultInputMapping();
+	inputMapping = ReadInputMappingFromFile("controls.mod");
 }
 
 Display::~Display()
@@ -41,6 +41,8 @@ void Display::Initialize()
 	input->SetInputMapping(inputMapping);
 	input->Bind();
 	input->GetInputBinding().AddKeyCommand("window.close", [=](){ glfwSetWindowShouldClose(mWindow, true); });
+	input->GetInputBinding().AddKeyCommand("controls.save", [=](){ SaveInputMappingToFile("controls.mod", input->GetInputMapping()); });
+	
 	scene = new Scene(input);
 }
 

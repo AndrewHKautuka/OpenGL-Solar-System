@@ -5,6 +5,7 @@
 
 #include "Timer.h"
 #include "InputListener.hpp"
+#include "InputMappingFileUtil.hpp"
 #include "Scene.hpp"
 
 class Display
