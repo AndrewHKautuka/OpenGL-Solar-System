@@ -8,7 +8,7 @@ const float Mars::INITIAL_ORBIT_VELOCITY = 0.00146f;
 const unsigned int Mars::STACK_COUNT = 36;
 const char* Mars::TEXTURE_PATH = "res/textures/marsmap1k.jpg";
 
-Mars::Mars(ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : Planet(RADIUS, STACK_COUNT, Texture(TEXTURE_PATH), pShader, pWorldUp, pForward)
+Mars::Mars(ShaderProgram* pShader, vec3 pWorldUp, vec3 pForward) : Planet(RADIUS, STACK_COUNT, Texture(TEXTURE_PATH), pShader, pWorldUp, pForward)
 {
 	spinVelocity = INITIAL_SPIN_VELOCITY;
 	orbitVelocity = INITIAL_ORBIT_VELOCITY;

@@ -6,15 +6,15 @@
 class PointLightSource : public LightSource
 {
 public:
-	PointLightSource(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, ShaderProgram* pShader, glm::vec3 pLightColor);
+	PointLightSource(float pRadius, vec3 pPosition, unsigned int pStackCount, ShaderProgram* pShader, vec3 pLightColor);
 	~PointLightSource();
 	
 	void Update() override;
-	void Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const override;
+	void Draw(mat4* projectionMatrix, mat4* viewMatrix) const override;
 	void ApplyToShader(ShaderProgram* const shader) override;
 private:
-	glm::vec3 lightVector;
-	glm::vec3 position;
-	glm::mat4 modelMatrix;
+	vec3 lightVector;
+	vec3 position;
+	mat4 modelMatrix;
 	Sphere mesh;
 };

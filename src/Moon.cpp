@@ -8,7 +8,7 @@ const float Moon::INITIAL_ORBIT_VELOCITY = 0.0366f;
 const unsigned int Moon::STACK_COUNT = 36;
 const char* Moon::TEXTURE_PATH = "res/textures/moonmap1k.jpg";
 
-Moon::Moon(ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : Planet(RADIUS, STACK_COUNT, Texture(TEXTURE_PATH, GL_RED), pShader, pWorldUp, pForward)
+Moon::Moon(ShaderProgram* pShader, vec3 pWorldUp, vec3 pForward) : Planet(RADIUS, STACK_COUNT, Texture(TEXTURE_PATH, GL_RED), pShader, pWorldUp, pForward)
 {
 	spinVelocity = INITIAL_SPIN_VELOCITY;
 	orbitVelocity = INITIAL_ORBIT_VELOCITY;

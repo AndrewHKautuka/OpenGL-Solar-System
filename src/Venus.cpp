@@ -8,7 +8,7 @@ const float Venus::INITIAL_ORBIT_VELOCITY = 0.00445;
 const unsigned int Venus::STACK_COUNT = 36;
 const char* Venus::TEXTURE_PATH = "res/textures/venusmap.jpg";
 
-Venus::Venus(ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : Planet(RADIUS, STACK_COUNT, Texture(TEXTURE_PATH), pShader, pWorldUp, pForward)
+Venus::Venus(ShaderProgram* pShader, vec3 pWorldUp, vec3 pForward) : Planet(RADIUS, STACK_COUNT, Texture(TEXTURE_PATH), pShader, pWorldUp, pForward)
 {
 	spinVelocity = INITIAL_SPIN_VELOCITY;
 	orbitVelocity = INITIAL_ORBIT_VELOCITY;

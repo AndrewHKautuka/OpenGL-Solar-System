@@ -8,7 +8,7 @@
 const float Planet::SPIN_SPEED_MULTIPLIER = 10.0f;
 const float Planet::ORBIT_SPEED_MULTIPLIER = 100.0f;
 
-Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : texture(pTexture), mesh(pRadius, pStackCount * 2, pStackCount, true, 2)
+Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, vec3 pWorldUp, vec3 pForward) : texture(pTexture), mesh(pRadius, pStackCount * 2, pStackCount, true, 2)
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -40,16 +40,16 @@ Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, Shader
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	
 	shader = pShader;
-	position = std::shared_ptr<glm::vec3>(new glm::vec3(0.0f, 0.0f, 0.0f));
-	modelMatrix = glm::mat4(1.0f);
-	modelMatrix = glm::translate(modelMatrix, *position);
+	position = std::shared_ptr<vec3>(new vec3(0.0f, 0.0f, 0.0f));
+	modelMatrix = mat4(1.0f);
+	modelMatrix = translate(modelMatrix, *position);
 	host = nullptr;
 	
 	forward = pForward;
-	right = glm::normalize(glm::cross(forward, pWorldUp));
-	up = glm::cross(right, forward);
+	right = normalize(cross(forward, pWorldUp));
+	up = cross(right, forward);
 	
-	color = glm::vec3(1.0f, 1.0f, 1.0f);
+	color = vec3(1.0f, 1.0f, 1.0f);
 }
 
 Planet::~Planet()
@@ -62,19 +62,19 @@ void Planet::Update()
 	spinAngle += fmod(spinVelocity * SPIN_SPEED_MULTIPLIER, 360.0f);
 	orbitAngle += fmod(orbitVelocity * ORBIT_SPEED_MULTIPLIER, 360.0f);
 	
-	modelMatrix = glm::mat4(1.0f);
+	modelMatrix = mat4(1.0f);
 	
 	if (host != nullptr)
 	{
-		glm::vec4 pos = glm::rotate(glm::mat4(1.0f), glm::radians(orbitAngle), host->up) * glm::vec4(0.0f, 0.0f, -orbitRadius, 1.0f);
-		*position = glm::vec3(pos.x, pos.y, pos.z) + *(host->position);
+		vec4 pos = rotate(mat4(1.0f), radians(orbitAngle), host->up) * vec4(0.0f, 0.0f, -orbitRadius, 1.0f);
+		*position = vec3(pos.x, pos.y, pos.z) + *(host->position);
 	}
 	
-	modelMatrix = glm::translate(modelMatrix, *position);
-	modelMatrix = glm::rotate(modelMatrix, glm::radians(spinAngle), up);
+	modelMatrix = translate(modelMatrix, *position);
+	modelMatrix = rotate(modelMatrix, radians(spinAngle), up);
 }
 
-void Planet::Draw(glm::mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource) const
+void Planet::Draw(mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource) const
 {
 	shader->use();
 	shader->setVec3("objectColor", color);

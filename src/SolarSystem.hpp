@@ -14,6 +14,8 @@
 #include "DirectionalLightSource.hpp"
 #include "ShaderPool.hpp"
 
+using namespace glm;
+
 class SolarSystem
 {
 private:
@@ -27,10 +29,10 @@ public:
 	SolarSystem();
 	~SolarSystem();
 	
-	void Initialize(const ShaderPool* shaderPool, const glm::vec3 worldUp);
+	void Initialize(const ShaderPool* shaderPool, const vec3 worldUp);
 	
 	void Update();
-	void Render(glm::mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource);
+	void Render(mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource);
 	
 	Sun* GetSun() const;
 	Mercury* GetMercury() const;

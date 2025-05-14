@@ -26,7 +26,7 @@ SolarSystem::~SolarSystem()
 	mars = nullptr;
 }
 
-void SolarSystem::Initialize(const ShaderPool* shaderPool, const glm::vec3 worldUp)
+void SolarSystem::Initialize(const ShaderPool* shaderPool, const vec3 worldUp)
 {
 	ShaderProgram* planetShader = shaderPool->RetrieveShaderProgram("planet");
 	ShaderProgram* moonShader = shaderPool->RetrieveShaderProgram("moon");
@@ -38,21 +38,21 @@ void SolarSystem::Initialize(const ShaderPool* shaderPool, const glm::vec3 world
 	float dMoon = Earth::RADIUS + 0.6f + Moon::RADIUS;
 	float dMars = dEarth + Earth::RADIUS + 1.8f + Mars::RADIUS;
 	
-	sun = new Sun(planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	sun = new Sun(planetShader, worldUp, vec3(0.0f, 0.0f, 1.0f));
 	
-	mercury = new Mercury(planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	mercury = new Mercury(planetShader, worldUp, vec3(0.0f, 0.0f, 1.0f));
 	mercury->SetOrbit(sun, dMercury, 0.0f);
 	
-	venus = new Venus(planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	venus = new Venus(planetShader, worldUp, vec3(0.0f, 0.0f, 1.0f));
 	venus->SetOrbit(sun, dVenus, 0.0f);
 	
-	earth = new Earth(planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	earth = new Earth(planetShader, worldUp, vec3(0.0f, 0.0f, 1.0f));
 	earth->SetOrbit(sun, dEarth, 0.0f);
 	
-	moon = new Moon(moonShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	moon = new Moon(moonShader, worldUp, vec3(0.0f, 0.0f, 1.0f));
 	moon->SetOrbit(earth, dMoon, 0.0f);
 	
-	mars = new Mars(planetShader, worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	mars = new Mars(planetShader, worldUp, vec3(0.0f, 0.0f, 1.0f));
 	mars->SetOrbit(sun, dMars, 0.0f);
 }
 
@@ -66,7 +66,7 @@ void SolarSystem::Update()
 	mars->Update();
 }
 
-void SolarSystem::Render(glm::mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource)
+void SolarSystem::Render(mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource)
 {
 	sun->Draw(projectionMatrix, camera, pointLightSource, dirLightSource);
 	mercury->Draw(projectionMatrix, camera, pointLightSource, dirLightSource);

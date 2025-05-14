@@ -39,14 +39,14 @@ void ShaderProgram::setFloat(const std::string& name, float value) const
 	GLCall(glUniform1f(glGetUniformLocation(ID, name.c_str()), value));
 }
 
-void ShaderProgram::setVec3(const std::string& name, glm::vec3 value) const
+void ShaderProgram::setVec3(const std::string& name, vec3 value) const
 {
-	GLCall(glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, glm::value_ptr(value)));
+	GLCall(glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, value_ptr(value)));
 }
 
-void ShaderProgram::setMat4(const std::string& name, glm::mat4 value) const
+void ShaderProgram::setMat4(const std::string& name, mat4 value) const
 {
-	GLCall(glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, glm::value_ptr(value)));
+	GLCall(glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, value_ptr(value)));
 }
 
 void ShaderProgram::checkProgramLinkErrors()

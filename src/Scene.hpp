@@ -10,6 +10,8 @@
 #include "PointLightSource.hpp"
 #include "DirectionalLightSource.hpp"
 
+using namespace glm;
+
 class Scene
 {
 private:
@@ -23,7 +25,7 @@ private:
 	DirectionalLightSource* dirLightSource;
 	PointLightSource* pointLightSource;
 	
-	glm::mat4 projection;
+	mat4 projection;
 public:
 	Scene(InputListener* pInput);
 	~Scene();

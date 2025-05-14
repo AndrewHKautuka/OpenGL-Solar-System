@@ -10,17 +10,19 @@
 #include "PointLightSource.hpp"
 #include "DirectionalLightSource.hpp"
 
+using namespace glm;
+
 class Planet
 {
 public:
 	static const float SPIN_SPEED_MULTIPLIER;
 	static const float ORBIT_SPEED_MULTIPLIER;
 	
-	Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward);
+	Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, vec3 pWorldUp, vec3 pForward);
 	virtual ~Planet();
 	
 	void Update();
-	void Draw(glm::mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource) const;
+	void Draw(mat4* projectionMatrix, Camera* camera, PointLightSource* pointLightSource, DirectionalLightSource* dirLightSource) const;
 	
 	void SetOrbit(Planet* pHost, float pOrbitRadius, float pOrbitAngle);
 	float GetOrbitVelocity() const;
@@ -29,7 +31,7 @@ public:
 	float GetSpinVelocity() const;
 	void SetSpinVelocity(float pSpinVelocity);
 protected:
-	glm::vec3 color;
+	vec3 color;
 	
 	// Speed of the planet's spin on its axis + its direction
 	float spinVelocity = 0.0f;
@@ -44,13 +46,13 @@ private:
 	unsigned int VBO;
 	unsigned int EBO;
 	
-	glm::vec3 forward;
-	glm::vec3 right;
-	glm::vec3 up;
+	vec3 forward;
+	vec3 right;
+	vec3 up;
 	
 	ShaderProgram* shader;
 	Sphere mesh;
 	Texture texture;
-	std::shared_ptr<glm::vec3> position;
-	glm::mat4 modelMatrix;
+	std::shared_ptr<vec3> position;
+	mat4 modelMatrix;
 };

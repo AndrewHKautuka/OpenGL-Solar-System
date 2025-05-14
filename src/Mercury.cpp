@@ -8,7 +8,7 @@ const float Mercury::INITIAL_ORBIT_VELOCITY = 0.0114f;
 const unsigned int Mercury::STACK_COUNT = 36;
 const char* Mercury::TEXTURE_PATH = "res/textures/mercurymap.jpg";
 
-Mercury::Mercury(ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward) : Planet(RADIUS, STACK_COUNT, Texture(TEXTURE_PATH), pShader, pWorldUp, pForward)
+Mercury::Mercury(ShaderProgram* pShader, vec3 pWorldUp, vec3 pForward) : Planet(RADIUS, STACK_COUNT, Texture(TEXTURE_PATH), pShader, pWorldUp, pForward)
 {
 	spinVelocity = INITIAL_SPIN_VELOCITY;
 	orbitVelocity = INITIAL_ORBIT_VELOCITY;

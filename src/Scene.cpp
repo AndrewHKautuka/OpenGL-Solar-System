@@ -21,7 +21,7 @@ Scene::Scene(InputListener* pInput)
 	
 	shaderPool.ClearShaders();
 	
-	projection = glm::mat4(1.0f);
+	projection = mat4(1.0f);
 }
 
 Scene::~Scene()
@@ -33,17 +33,17 @@ float* moveSpeed = new float(0.1f);
 
 void Scene::Initialize(float pAspectRatio)
 {
-	const glm::vec3 worldUp(0.0f, 1.0f, 0.0f);
-	camera = new Camera(glm::vec3(0.0f, 0.0f, -10.0f), worldUp, glm::vec3(0.0f, 0.0f, 1.0f));
+	const vec3 worldUp(0.0f, 1.0f, 0.0f);
+	camera = new Camera(vec3(0.0f, 0.0f, -10.0f), worldUp, vec3(0.0f, 0.0f, 1.0f));
 	
 	solarSystem.Initialize(&shaderPool, worldUp);
 	
 	InputBinding& binding = input->GetInputBinding();
 	
-	binding.AddKeyStateAction("camera.move.forward", [=](){ camera->Move(glm::vec3( 0.0f, 0.0f,  *moveSpeed)); });
-	binding.AddKeyStateAction("camera.move.backward", [=](){ camera->Move(glm::vec3( 0.0f, 0.0f, -*moveSpeed)); });
-	binding.AddKeyStateAction("camera.move.left", [=](){ camera->Move(glm::vec3(-*moveSpeed, 0.0f,  0.0f)); });
-	binding.AddKeyStateAction("camera.move.right", [=](){ camera->Move(glm::vec3( *moveSpeed, 0.0f,  0.0f)); });
+	binding.AddKeyStateAction("camera.move.forward", [=](){ camera->Move(vec3( 0.0f, 0.0f,  *moveSpeed)); });
+	binding.AddKeyStateAction("camera.move.backward", [=](){ camera->Move(vec3( 0.0f, 0.0f, -*moveSpeed)); });
+	binding.AddKeyStateAction("camera.move.left", [=](){ camera->Move(vec3(-*moveSpeed, 0.0f,  0.0f)); });
+	binding.AddKeyStateAction("camera.move.right", [=](){ camera->Move(vec3( *moveSpeed, 0.0f,  0.0f)); });
 	
 	binding.AddKeyCommand("moon.orbit.speed_up", [=](){
 		Planet* moon = solarSystem.GetMoon();
@@ -74,14 +74,14 @@ void Scene::Initialize(float pAspectRatio)
 	shaderPool.RetrieveShaderProgram("planet")->use();
 	shaderPool.RetrieveShaderProgram("planet")->setMat4("projection", projection);
 	
-	dirLightSource = new DirectionalLightSource(shaderPool.RetrieveShaderProgram("lightSource"), glm::vec3(1.0f, 0.75f, 0.25f), glm::vec3(0.0f, 0.0f, -1.0f));
-	pointLightSource = new PointLightSource(0.1f, glm::vec3(0.0f, 20.0f, 0.0f), 18, shaderPool.RetrieveShaderProgram("lightSource"), glm::vec3(0.1f, 0.25f, 1.0f));
+	dirLightSource = new DirectionalLightSource(shaderPool.RetrieveShaderProgram("lightSource"), vec3(1.0f, 0.75f, 0.25f), vec3(0.0f, 0.0f, -1.0f));
+	pointLightSource = new PointLightSource(0.1f, vec3(0.0f, 20.0f, 0.0f), 18, shaderPool.RetrieveShaderProgram("lightSource"), vec3(0.1f, 0.25f, 1.0f));
 }
 
 void Scene::SetAspectRatio(float pAspectRatio)
 {
 	aspectRatio = pAspectRatio;
-	projection = glm::perspective(glm::radians(45.0f), aspectRatio, 0.1f, 100.0f);
+	projection = perspective(radians(45.0f), aspectRatio, 0.1f, 100.0f);
 }
 
 void Scene::Update()
@@ -95,7 +95,7 @@ void Scene::Update()
 
 void Scene::Render()
 {
-	glm::mat4 view = camera->GetViewMatrix();
+	mat4 view = camera->GetViewMatrix();
 	
 	dirLightSource->Draw(&projection, &view);
 	pointLightSource->Draw(&projection, &view);

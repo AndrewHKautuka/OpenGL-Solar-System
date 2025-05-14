@@ -5,16 +5,18 @@
 #include "Camera.hpp"
 #include "ShaderProgram.hpp"
 
+using namespace glm;
+
 class LightSource
 {
 public:
-	LightSource(ShaderProgram* pShader, glm::vec3 pLightColor);
+	LightSource(ShaderProgram* pShader, vec3 pLightColor);
 	~LightSource();
 	
 	virtual void Update();
-	virtual void Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const;
+	virtual void Draw(mat4* projectionMatrix, mat4* viewMatrix) const;
 	
-	glm::vec3 GetLightColor() const;
+	vec3 GetLightColor() const;
 	
 	virtual void ApplyToShader(ShaderProgram* const shader) = 0;
 protected:
@@ -23,5 +25,5 @@ protected:
 	unsigned int EBO;
 	
 	ShaderProgram* shader;
-	glm::vec3 lightColor;
+	vec3 lightColor;
 };

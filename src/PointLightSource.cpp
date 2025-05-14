@@ -1,6 +1,6 @@
 #include "PointLightSource.hpp"
 
-PointLightSource::PointLightSource(float pRadius, glm::vec3 pPosition, unsigned int pStackCount, ShaderProgram* pShader, glm::vec3 pLightColor) : LightSource(pShader, pLightColor), mesh(pRadius, pStackCount * 2, pStackCount, true, 2)
+PointLightSource::PointLightSource(float pRadius, vec3 pPosition, unsigned int pStackCount, ShaderProgram* pShader, vec3 pLightColor) : LightSource(pShader, pLightColor), mesh(pRadius, pStackCount * 2, pStackCount, true, 2)
 {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
@@ -24,7 +24,7 @@ PointLightSource::PointLightSource(float pRadius, glm::vec3 pPosition, unsigned 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	
 	position = pPosition;
-	modelMatrix = glm::mat4(1.0f);
+	modelMatrix = mat4(1.0f);
 }
 
 PointLightSource::~PointLightSource()
@@ -33,11 +33,11 @@ PointLightSource::~PointLightSource()
 
 void PointLightSource::Update()
 {
-	modelMatrix = glm::mat4(1.0f);
-	modelMatrix = glm::translate(modelMatrix, position);
+	modelMatrix = mat4(1.0f);
+	modelMatrix = translate(modelMatrix, position);
 }
 
-void PointLightSource::Draw(glm::mat4* projectionMatrix, glm::mat4* viewMatrix) const
+void PointLightSource::Draw(mat4* projectionMatrix, mat4* viewMatrix) const
 {
 	LightSource::Draw(projectionMatrix, viewMatrix);
 	shader->setMat4("projection", *projectionMatrix);

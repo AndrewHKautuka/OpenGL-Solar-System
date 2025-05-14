@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Camera::Camera(glm::vec3 pPosition, glm::vec3 pWorldUp, glm::vec3 pForward, float pMinPitch, float pMaxPitch) : minPitch(glm::max(pMinPitch, MIN_PITCH)), maxPitch(glm::min(pMaxPitch, MAX_PITCH)), position(pPosition), initialUp(pWorldUp), forward(pForward), right(glm::normalize(glm::cross(forward, initialUp))), up(glm::cross(right, forward))
+Camera::Camera(vec3 pPosition, vec3 pWorldUp, vec3 pForward, float pMinPitch, float pMaxPitch) : minPitch(max(pMinPitch, MIN_PITCH)), maxPitch(min(pMaxPitch, MAX_PITCH)), position(pPosition), initialUp(pWorldUp), forward(pForward), right(normalize(cross(forward, initialUp))), up(cross(right, forward))
 {
 	if (minPitch > maxPitch)
 	{
@@ -12,13 +12,13 @@ Camera::Camera(glm::vec3 pPosition, glm::vec3 pWorldUp, glm::vec3 pForward, floa
 	target = position + forward;
 }
 
-Camera::Camera(glm::vec3 pPosition, glm::vec3 pWorldUp, glm::vec3 pForward) : Camera(pPosition, pWorldUp, pForward, MIN_PITCH, MAX_PITCH)
+Camera::Camera(vec3 pPosition, vec3 pWorldUp, vec3 pForward) : Camera(pPosition, pWorldUp, pForward, MIN_PITCH, MAX_PITCH)
 {}
 
 Camera::~Camera()
 {}
 
-void Camera::Move(glm::vec3 deltaMove)
+void Camera::Move(vec3 deltaMove)
 {
 	position += deltaMove.z * forward;
 	position += deltaMove.x * right;
@@ -31,36 +31,36 @@ void Camera::AddDirectionOffest(float xOffset, float yOffset)
 	yaw = fmod(yaw + xOffset, 360.0f);
 	pitch = fmod(pitch + yOffset, 360.0f);
 	
-	pitch = glm::clamp(pitch, minPitch, maxPitch);
+	pitch = clamp(pitch, minPitch, maxPitch);
 	
-	glm::vec3 direction;
-	direction.x = sin(glm::radians(-yaw)) * cos(glm::radians(-pitch));
-	direction.y = sin(glm::radians(-pitch));
-	direction.z = cos(glm::radians(-yaw)) * cos(glm::radians(-pitch));
+	vec3 direction;
+	direction.x = sin(radians(-yaw)) * cos(radians(-pitch));
+	direction.y = sin(radians(-pitch));
+	direction.z = cos(radians(-yaw)) * cos(radians(-pitch));
 	
-	SetForward(glm::normalize(direction));
-	right = glm::normalize(glm::cross(forward, initialUp));
-	up = glm::cross(right, forward);
+	SetForward(normalize(direction));
+	right = normalize(cross(forward, initialUp));
+	up = cross(right, forward);
 }
 
-glm::vec3 Camera::GetPosition() const
+vec3 Camera::GetPosition() const
 {
 	return position;
 }
 
-void Camera::SetPosition(glm::vec3 pPosition)
+void Camera::SetPosition(vec3 pPosition)
 {
 	position = pPosition;
 	target = position + forward;
 }
 
-void Camera::SetForward(glm::vec3 pForward)
+void Camera::SetForward(vec3 pForward)
 {
 	forward = pForward;
 	target = position + forward;
 }
 
-glm::mat4 Camera::GetViewMatrix() const
+mat4 Camera::GetViewMatrix() const
 {
-	return glm::lookAt(position, target, initialUp);
+	return lookAt(position, target, initialUp);
 }

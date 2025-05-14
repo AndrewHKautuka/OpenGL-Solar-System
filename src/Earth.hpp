@@ -11,5 +11,5 @@ public:
 	static const unsigned int STACK_COUNT;
 	static const char* TEXTURE_PATH;
 	
-	Earth(ShaderProgram* pShader, glm::vec3 pWorldUp, glm::vec3 pForward);
+	Earth(ShaderProgram* pShader, vec3 pWorldUp, vec3 pForward);
 };
