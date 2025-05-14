@@ -52,7 +52,6 @@ public:
 	void SetInputMapping(InputMapping* pInputMapping);
 	
 	void HandleKeyInput(int key, int action, int modifiers);
-	void HandleKeyCommand(std::string commandName);
 	void HandleMouseMoveInput(bool* firstMouseMoveEvent, double xPos, double yPos);
 	void HandleMouseScrollInput(bool* firstMouseScrollEvent, double xScroll, double yScroll);
 };
