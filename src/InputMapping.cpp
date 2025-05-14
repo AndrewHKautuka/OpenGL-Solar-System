@@ -121,9 +121,6 @@ InputMapping* InputMapping::GetNewDefaultInputMapping()
 {
 	InputMapping* defaultInputMapping = new InputMapping();
 	
-	// Window Controls
-	defaultInputMapping->AddKeyCommand(GLFW_KEY_ESCAPE, RELEASED, GLFW_MOD_NONE, "window.close");
-	
 	// Camera Movement Controls
 	defaultInputMapping->AddKeyStateAction(GLFW_KEY_W, PRESSED, "camera.move.forward");
 	defaultInputMapping->AddKeyStateAction(GLFW_KEY_S, PRESSED, "camera.move.backward");
@@ -135,6 +132,14 @@ InputMapping* InputMapping::GetNewDefaultInputMapping()
 	defaultInputMapping->AddKeyCommand(GLFW_KEY_RIGHT, RELEASED, GLFW_MOD_NONE, "moon.orbit.speed_down");
 	defaultInputMapping->AddKeyCommand(GLFW_KEY_UP, RELEASED, GLFW_MOD_NONE, "sun.spin.speed_up");
 	defaultInputMapping->AddKeyCommand(GLFW_KEY_DOWN, RELEASED, GLFW_MOD_NONE, "sun.spin.speed_down");
+	
+	// Window Controls
+	defaultInputMapping->AddKeyCommand(GLFW_KEY_ESCAPE, RELEASED, GLFW_MOD_NONE, "window.close");
+	defaultInputMapping->AddKeyCommand(GLFW_KEY_F11, RELEASED, GLFW_MOD_NONE, "window.fullscreen");
+	defaultInputMapping->AddKeyCommand(GLFW_KEY_V, RELEASED, GLFW_MOD_CONTROL, "window.save_settings");
+	
+	// Bindings Controls
+	defaultInputMapping->AddKeyCommand(GLFW_KEY_C, RELEASED, GLFW_MOD_CONTROL, "controls.save");
 	
 	return defaultInputMapping;
 }
