@@ -5,8 +5,8 @@
 
 #include "gLErrorHandle.hpp"
 
-const float Planet::SPIN_SPEED_MULTIPLIER = 10.0f;
-const float Planet::ORBIT_SPEED_MULTIPLIER = 100.0f;
+const float Planet::SPIN_SPEED_MULTIPLIER = 8.0f;
+const float Planet::ORBIT_SPEED_MULTIPLIER = 80.0f;
 
 Planet::Planet(float pRadius, unsigned int pStackCount, Texture pTexture, ShaderProgram* pShader, vec3 pWorldUp, vec3 pForward) : texture(pTexture), mesh(pRadius, pStackCount * 2, pStackCount, true, 2)
 {
