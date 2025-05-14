@@ -59,6 +59,11 @@ std::string InputMapping::ResolveKeyStateAction(unsigned int key, KeyState state
 	return iterator->second;
 }
 
+std::pair<std::unordered_map<std::tuple<unsigned int, KeyState>, std::string, hash_tuple::hash<std::tuple<unsigned int, KeyState>>>::iterator, std::unordered_map<std::tuple<unsigned int, KeyState>, std::string, hash_tuple::hash<std::tuple<unsigned int, KeyState>>>::iterator> InputMapping::GetKeyStateActionMappings()
+{
+	return std::make_pair(keyStateActionMap.begin(), keyStateActionMap.end());
+}
+
 void InputMapping::AddKeyCommand(unsigned int key, unsigned int action, unsigned int modifiers, std::string commandName)
 {
 	if (IsBlank(commandName))
@@ -100,6 +105,11 @@ std::string InputMapping::ResolveKeyCommand(unsigned int key, unsigned int actio
 	}
 	
 	return iterator->second;
+}
+
+std::pair<std::unordered_map<std::tuple<unsigned int, unsigned int, unsigned int>, std::string, hash_tuple::hash<std::tuple<unsigned int, unsigned int, unsigned int>>>::iterator, std::unordered_map<std::tuple<unsigned int, unsigned int, unsigned int>, std::string, hash_tuple::hash<std::tuple<unsigned int, unsigned int, unsigned int>>>::iterator> InputMapping::GetKeyCpmmands()
+{
+	return std::make_pair(keyCommandMap.begin(), keyCommandMap.end());
 }
 
 bool InputMapping::IsBlank(std::string string)

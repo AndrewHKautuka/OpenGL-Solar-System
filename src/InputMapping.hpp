@@ -33,11 +33,13 @@ public:
 	void RemoveKeyStateAction(unsigned int key, KeyState state);
 	void ChangeKeyStateAction(unsigned int key, KeyState state, std::string actionName);
 	std::string ResolveKeyStateAction(unsigned int key, KeyState state) const;
+	std::pair<std::unordered_map<std::tuple<unsigned int, KeyState>, std::string, hash_tuple::hash<std::tuple<unsigned int, KeyState>>>::iterator, std::unordered_map<std::tuple<unsigned int, KeyState>, std::string, hash_tuple::hash<std::tuple<unsigned int, KeyState>>>::iterator> GetKeyStateActionMappings();
 	
 	void AddKeyCommand(unsigned int key, unsigned int action, unsigned int modifiers, std::string commandName);
 	void RemoveKeyCommand(unsigned int key, unsigned int action, unsigned int modifiers);
 	void ChangeKeyCommand(unsigned int key, unsigned int action, unsigned int modifiers, std::string commandName);
 	std::string ResolveKeyCommand(unsigned int key, unsigned int action, unsigned int modifiers) const;
+	std::pair<std::unordered_map<std::tuple<unsigned int, unsigned int, unsigned int>, std::string, hash_tuple::hash<std::tuple<unsigned int, unsigned int, unsigned int>>>::iterator, std::unordered_map<std::tuple<unsigned int, unsigned int, unsigned int>, std::string, hash_tuple::hash<std::tuple<unsigned int, unsigned int, unsigned int>>>::iterator> GetKeyCpmmands();
 	
 	static bool IsBlank(std::string string);
 	static InputMapping* GetNewDefaultInputMapping();
