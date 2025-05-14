@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstring>
-
 #include "StringUtil.hpp"
 #include "InputMapping.hpp"
 
